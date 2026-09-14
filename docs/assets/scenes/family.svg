@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" width="888" height="710.80704" viewBox="0 0 888 710.80704">
+  <title>family visit</title>
+  <rect x="284" y="709.80704" width="320" height="2" fill="#3f3d56"/>
+  <circle cx="444" cy="300" r="180" fill="#f2f2f2"/>
+  <circle cx="374" cy="280" r="40" fill="#ffb8b8"/>
+  <circle cx="444" cy="280" r="40" fill="#ffb8b8"/>
+  <circle cx="514" cy="280" r="40" fill="#ffb8b8"/>
+  <path d="M530,420.40648c-20,30-50,30-70,0" transform="translate(-156 -94.59648)" fill="#2f2e41"/>
+  <path d="M600,420.40648c-20,30-50,30-70,0" transform="translate(-156 -94.59648)" fill="#2f2e41"/>
+  <path d="M670,420.40648c-20,30-50,30-70,0" transform="translate(-156 -94.59648)" fill="#2f2e41"/>
+  <rect x="354" y="320" width="40" height="100" rx="10" fill="#6c63ff"/>
+  <rect x="424" y="320" width="40" height="100" rx="10" fill="#6c63ff"/>
+  <rect x="494" y="320" width="40" height="100" rx="10" fill="#6c63ff"/>
+  <ellipse cx="444" cy="480" rx="100" ry="20" fill="#3f3d56"/>
+</svg>

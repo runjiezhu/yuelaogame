@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" width="888" height="710.80704" viewBox="0 0 888 710.80704">
+  <title>friends coffee</title>
+  <rect x="284" y="709.80704" width="320" height="2" fill="#3f3d56"/>
+  <circle cx="444" cy="350" r="200" fill="#f2f2f2"/>
+  <ellipse cx="444" cy="420" rx="80" ry="20" fill="#6c63ff"/>
+  <rect x="404" y="370" width="80" height="50" rx="10" fill="#fff" opacity="0.8"/>
+  <circle cx="424" cy="330" r="30" fill="#ffb8b8"/>
+  <circle cx="464" cy="330" r="30" fill="#ffb8b8"/>
+  <rect x="394" y="360" width="30" height="70" rx="8" fill="#2f2e41"/>
+  <rect x="454" y="360" width="30" height="70" rx="8" fill="#2f2e41"/>
+  <path d="M580,485.40648c-15,0-25-10-25-20h50C605,475.40648,595,485.40648,580,485.40648Z" transform="translate(-156 -94.59648)" fill="#ff6584"/>
+  <path d="M620,485.40648c-15,0-25-10-25-20h50C645,475.40648,635,485.40648,620,485.40648Z" transform="translate(-156 -94.59648)" fill="#ff6584"/>
+  <rect x="414" y="440" width="60" height="10" rx="5" fill="#6c63ff"/>
+  <circle cx="399" cy="445" r="8" fill="#6c63ff"/>
+  <circle cx="489" cy="445" r="8" fill="#6c63ff"/>
+</svg>

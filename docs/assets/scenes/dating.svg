@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" width="888" height="710.80704" viewBox="0 0 888 710.80704">
+  <title>dating romance</title>
+  <rect x="284" y="709.80704" width="320" height="2" fill="#3f3d56"/>
+  <circle cx="444" cy="350" r="200" fill="#f2f2f2"/>
+  <circle cx="404" cy="310" r="40" fill="#ffb8b8"/>
+  <circle cx="484" cy="310" r="40" fill="#ffb8b8"/>
+  <rect x="364" y="350" width="80" height="100" rx="10" fill="#6c63ff"/>
+  <rect x="444" y="350" width="80" height="100" rx="10" fill="#ff6584"/>
+  <path d="M444,500c-30,0-50-35-50-60s20-45,50-45,50,20,50,45S474,500,444,500Z" fill="#ff6584" opacity="0.3"/>
+  <ellipse cx="444" cy="490" rx="100" ry="20" fill="#3f3d56"/>
+  <path d="M580,480.40648a18,18,0,1,0-18-18A18,18,0,0,0,580,480.40648Z" transform="translate(-156 -94.59648)" fill="#ff6584"/>
+  <path d="M620,480.40648a18,18,0,1,0-18-18A18,18,0,0,0,620,480.40648Z" transform="translate(-156 -94.59648)" fill="#ff6584"/>
+</svg>

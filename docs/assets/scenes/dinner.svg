@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" width="888" height="710.80704" viewBox="0 0 888 710.80704">
+  <title>family dinner</title>
+  <rect x="284" y="709.80704" width="320" height="2" fill="#3f3d56"/>
+  <circle cx="444" cy="355" r="155" fill="#f2f2f2"/>
+  <ellipse cx="444" cy="355" rx="120" ry="30" fill="#6c63ff"/>
+  <rect x="384" y="325" width="120" height="15" rx="7" fill="#ffb8b8"/>
+  <circle cx="424" cy="305" r="25" fill="#2f2e41"/>
+  <circle cx="464" cy="305" r="25" fill="#2f2e41"/>
+  <path d="M600,450.40648a10,10,0,1,0-10-10A10,10,0,0,0,600,450.40648Z" transform="translate(-156 -94.59648)" fill="#ff6584"/>
+  <path d="M640,450.40648a10,10,0,1,0-10-10A10,10,0,0,0,640,450.40648Z" transform="translate(-156 -94.59648)" fill="#ff6584"/>
+  <rect x="374" y="375" width="140" height="80" rx="10" fill="#6c63ff" opacity="0.3"/>
+  <circle cx="314" cy="355" r="15" fill="#ffb8b8"/>
+  <circle cx="574" cy="355" r="15" fill="#ffb8b8"/>
+  <path d="M470,540.40648c-30,0-55-20-55-45s25-45,55-45" transform="translate(-156 -94.59648)" fill="#2f2e41"/>
+  <path d="M470,540.40648c30,0,55-20,55-45s-25-45-55-45" transform="translate(-156 -94.59648)" fill="#2f2e41"/>
+</svg>

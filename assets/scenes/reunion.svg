@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" width="888" height="710.80704" viewBox="0 0 888 710.80704">
+  <title>meeting reunion</title>
+  <rect x="284" y="709.80704" width="320" height="2" fill="#3f3d56"/>
+  <circle cx="444" cy="350" r="200" fill="#f2f2f2"/>
+  <rect x="344" y="300" width="200" height="150" rx="10" fill="#6c63ff" opacity="0.5"/>
+  <circle cx="394" cy="350" r="35" fill="#ffb8b8"/>
+  <circle cx="494" cy="350" r="35" fill="#ffb8b8"/>
+  <rect x="369" y="385" width="50" height="80" rx="10" fill="#2f2e41"/>
+  <rect x="469" y="385" width="50" height="80" rx="10" fill="#2f2e41"/>
+  <path d="M550,490.40648a15,15,0,1,0-15-15A15,15,0,0,0,550,490.40648Z" transform="translate(-156 -94.59648)" fill="#ff6584"/>
+  <path d="M650,490.40648a15,15,0,1,0-15-15A15,15,0,0,0,650,490.40648Z" transform="translate(-156 -94.59648)" fill="#ff6584"/>
+  <ellipse cx="444" cy="500" rx="120" ry="25" fill="#3f3d56"/>
+</svg>

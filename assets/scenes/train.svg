@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" width="888" height="710.80704" viewBox="0 0 888 710.80704">
+  <title>traveling</title>
+  <rect x="284" y="709.80704" width="320" height="2" fill="#3f3d56"/>
+  <circle cx="451" cy="206" r="206" fill="#f2f2f2"/>
+  <path d="M673.5,584.09648c0,77.94-35.82,141.21-80,141.21" transform="translate(-156 -94.59648)" fill="#3f3d56"/>
+  <path d="M593.5,725.30648c-44.18,0-80-63.27-80-141.21,0-77.94,35.82-141.21,80-141.21" transform="translate(-156 -94.59648)" fill="#6c63ff"/>
+  <rect x="417.5" y="482.09648" width="47" height="248.71" transform="translate(-156 -94.59648)" fill="#3f3d56"/>
+  <rect x="506.5" y="482.09648" width="47" height="248.71" transform="translate(-156 -94.59648)" fill="#3f3d56"/>
+  <ellipse cx="307.5" cy="387.5" rx="23.5" ry="7.5" fill="#3f3d56"/>
+  <ellipse cx="396.5" cy="387.5" rx="23.5" ry="7.5" fill="#3f3d56"/>
+  <path d="M569.5,609.80648h-47a4,4,0,0,1-4-4v-34a4,4,0,0,1,4-4h47a4,4,0,0,1,4,4v34A4,4,0,0,1,569.5,609.80648Z" transform="translate(-156 -94.59648)" fill="#f2f2f2"/>
+  <circle cx="294" cy="432" r="94" fill="#6c63ff"/>
+  <circle cx="294" cy="432" r="71" fill="#f2f2f2"/>
+  <path d="M450,546.80648a20,20,0,1,0-20-20A20,20,0,0,0,450,546.80648Z" transform="translate(-156 -94.59648)" fill="#6c63ff"/>
+</svg>

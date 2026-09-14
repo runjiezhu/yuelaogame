@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" width="888" height="710.80704" viewBox="0 0 888 710.80704">
+  <title>love couple</title>
+  <rect x="284" y="709.80704" width="320" height="2" fill="#3f3d56"/>
+  <circle cx="444" cy="350" r="200" fill="#f2f2f2"/>
+  <path d="M600,500.40648c-40,0-70-50-70-80,0-30,30-50,70-50s70,20,70,50C670,450.40648,640,500.40648,600,500.40648Z" transform="translate(-156 -94.59648)" fill="#ff6584" opacity="0.5"/>
+  <circle cx="384" cy="300" r="45" fill="#ffb8b8"/>
+  <circle cx="504" cy="300" r="45" fill="#ffb8b8"/>
+  <rect x="339" y="345" width="90" height="110" rx="12" fill="#6c63ff"/>
+  <rect x="459" y="345" width="90" height="110" rx="12" fill="#6c63ff"/>
+  <path d="M540,490.40648a15,15,0,1,0-15-15A15,15,0,0,0,540,490.40648Z" transform="translate(-156 -94.59648)" fill="#ff6584"/>
+  <path d="M660,490.40648a15,15,0,1,0-15-15A15,15,0,0,0,660,490.40648Z" transform="translate(-156 -94.59648)" fill="#ff6584"/>
+  <ellipse cx="444" cy="510" rx="120" ry="25" fill="#3f3d56"/>
+</svg>

@@ -192,22 +192,55 @@ export function renderChapter(event, { onChoice }) {
   const bodyEl    = document.getElementById("chapter-body");
   const choicesEl = document.getElementById("chapter-choices");
 
+  // 背景渐变色
+  const novelView = document.getElementById("view-novel");
+  if (novelView && event.bgColor) {
+    novelView.style.background = `linear-gradient(180deg, ${event.bgColor} 0%, #0f0f0f 40%)`;
+  }
+
   // 标题前缀
   const titlePrefix = event.isMainQuest ? "🧧 " : "";
   if (titleEl) titleEl.textContent = titlePrefix + (event.title ?? "第？章");
 
-  // NPC 出场 Banner
+  // 场景插画
+  let sceneIllustration = "";
+  if (event.illustration) {
+    sceneIllustration = `<img src="assets/scenes/${event.illustration}" class="scene-img" alt="${event.title}">`;
+  }
+
+  // NPC 出场 Banner（带头像圆圈）
   let npcBanner = "";
   if (event.npcInvolved && event.npcInvolved.length > 0) {
+    const npcAvatars = event.npcInvolved.map(id => {
+      const meta = NPC_META[id] ?? { name: id, emoji: "👤" };
+      return `<div class="npc-avatar">${meta.emoji}</div>`;
+    }).join("");
+    
     const npcChips = event.npcInvolved.map(id => {
       const meta = NPC_META[id] ?? { name: id, emoji: "👤" };
       return `<span class="npc-chip">${meta.emoji} ${meta.name}</span>`;
     }).join("");
-    npcBanner = `<div class="npc-banner">出场：${npcChips}</div>`;
+    
+    npcBanner = `
+      <div style="display: flex; justify-content: center; gap: 16px; margin-bottom: 20px;">
+        ${npcAvatars}
+      </div>
+      <div class="npc-banner">出场：${npcChips}</div>
+    `;
   }
 
+  // 替换 body 中的模板变量 {{npc_xxx.name}}
+  let bodyText = event.body ?? "";
+  const npcPool = window.__currentNpcPool || [];
+  npcPool.forEach(npc => {
+    // 提取 npc id 的最后一部分（去掉 npc_ 前缀和可能的 _female/_male 后缀）
+    const npcKey = npc.id.replace(/^npc_/, '').replace(/_(female|male)$/, '');
+    const regex = new RegExp(`\\{\\{npc_${npcKey}\\.name\\}\\}`, 'g');
+    bodyText = bodyText.replace(regex, npc.name);
+  });
+
   if (bodyEl) {
-    bodyEl.innerHTML = npcBanner + (event.body ?? "").replace(/\n/g, "<br>");
+    bodyEl.innerHTML = sceneIllustration + npcBanner + bodyText.replace(/\n/g, "<br>");
   }
 
   if (choicesEl && event.choices?.length) {

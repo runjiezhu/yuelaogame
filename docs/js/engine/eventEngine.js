@@ -4,6 +4,7 @@ import { EVENTS, getMainQuestEvents, getRandomEvents } from "../../data/events.j
 import { ENDINGS } from "../../data/endings.js";
 import { INSIGHTS } from "../../data/insights.js";
 import { shouldTriggerEnding, ageToBand } from "./statSystem.js";
+import { NPCS_FEMALE, NPCS_MALE } from "../../data/npcs_gender.js";
 
 // 性别归一化
 const GENDER_MAP = { F: "女", M: "男", 男: "男", 女: "女" };
@@ -264,6 +265,13 @@ function generateChoiceResult(choice, event) {
 
 // ===== 主入口 =====
 export function nextStep(stats, chaptersPlayed, usedEventIds) {
+  // 根据玩家性别选择 NPC 池
+  const npcPool = stats.profile?.gender === 'F' ? NPCS_FEMALE : NPCS_MALE;
+  // 暴露给 UI 层（仅在浏览器环境）
+  if (typeof window !== 'undefined') {
+    window.__currentNpcPool = npcPool;
+  }
+  
   const endingCheck = shouldTriggerEnding(stats, chaptersPlayed);
   if (endingCheck.trigger) {
     return { type: "ending", ending: matchEnding(stats) };
