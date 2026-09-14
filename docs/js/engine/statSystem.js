@@ -1,5 +1,6 @@
 // statSystem.js - 7 维属性计算 + 游戏规则
-// 档位索引：数字越大越"高端"
+// v3: 新增 crisis_events 系统扩展属性 + 技能检定
+// v4: 新增 applyActivityEffect 时间段活动效果
 export const TIER_INDEX = {
   assetTier:   ["普通",    "A6",      "A7",      "A8",       "A9"],
   eduTier:     ["专科及以下", "普通本科", "211",    "985硕",     "海外",   "博士"],
@@ -103,9 +104,13 @@ export function formatEffectChange(effects) {
 // ===== v2 新增 =====
 
 // 应用选项效果（基础版，只改属性）
+// v3: 支持 crisis_events 系统扩展的属性（career/family/independence/resilience/romance/energy）与资源（redPacket/socialDebt）
 export function applyStatEffects(stats, effects) {
   const next = { ...stats };
   if (!effects) return next;
+
+  // 多维度属性（0-100 区间，0/100 截断）
+  const ATTR_KEYS = ["career", "family", "independence", "resilience", "romance", "energy"];
 
   for (const [key, delta] of Object.entries(effects)) {
     if (key === "age") {
@@ -114,6 +119,23 @@ export function applyStatEffects(stats, effects) {
       next.confidence = Math.max(0, Math.min(100, (next.confidence ?? 50) + delta));
     } else if (key === "social") {
       next.social = Math.max(0, Math.min(100, (next.social ?? 50) + delta));
+    } else if (ATTR_KEYS.includes(key)) {
+      // v3: 多维度属性写入 stats.attributes 子对象
+      if (!next.attributes) next.attributes = {};
+      const cur = next.attributes[key] ?? 50;
+      next.attributes[key] = Math.max(0, Math.min(100, cur + delta));
+      // 同时也写入顶层（向后兼容 player_stats.js）
+      next[key] = next.attributes[key];
+    } else if (key === "redPacket") {
+      // v3: 红包现金余额（可负）
+      next.redPacket = (next.redPacket ?? 0) + delta;
+    } else if (key === "socialDebt") {
+      // v3: 人情债计数
+      next.socialDebt = (next.socialDebt ?? 0) + delta;
+    } else if (key === "day") {
+      next.day = (next.day ?? 1) + delta;
+    } else if (key === "timeSlot") {
+      next.timeSlot = (next.timeSlot ?? 0) + delta;
     } else if (key === "incomeTier") {
       const tiers = TIERS.incomeTier;
       const idx = tiers.indexOf(next.incomeTier);
@@ -126,18 +148,49 @@ export function applyStatEffects(stats, effects) {
       const tiers = TIERS.looksTier;
       const idx = tiers.indexOf(next.looksTier);
       if (idx >= 0 && idx < tiers.length - 1) next.looksTier = tiers[idx + 1];
+    } else if (key === "flag") {
+      // v3: 标记位（e.g. { type: "flag", key: "exposed_mama_boy", value: true }）
+      // 由 applyEffects 单独处理；此处忽略
     }
+    // 未知字段静默忽略，保持向后兼容
   }
   return next;
 }
 
 // 应用完整选项效果（引擎层用这个）
 // choice = { effects, affinityChange, _event: { isMainQuest, id, unlockedNext } }
+// v3: 新增 flag 操作支持（如 { type: "flag", key: "...", value: true }）
 export function applyEffects(stats, choice) {
-  // 1. 应用基础属性变化
-  let next = applyStatEffects(stats, choice.effects);
+  // 1. 分离 flag 效果与普通效果
+  const normalEffects = {};
+  const flagEffects = [];
+  if (choice.effects && Array.isArray(choice.effects)) {
+    // crisis_events 风格：effects 是数组，每个元素是 { type, target, delta }
+    for (const eff of choice.effects) {
+      if (eff.type === "flag") {
+        flagEffects.push(eff);
+      } else if (eff.type === "attr") {
+        // 把 {type:"attr", target:"career", delta:15} 转成 {career:15}
+        normalEffects[eff.target] = (normalEffects[eff.target] ?? 0) + eff.delta;
+      } else if (eff.type === "affection") {
+        // {type:"affection", target:"npc_mom_affection", delta:-25} → 暂存，2 步处理
+        if (!choice.affinityChange) choice.affinityChange = {};
+        // 兼容 target 可能是 "npc_xxx" 或 "npc_xxx_affection"
+        const npcId = eff.target.replace(/_affection$/, "");
+        choice.affinityChange[npcId] = (choice.affinityChange[npcId] ?? 0) + eff.delta;
+      } else if (eff.type === "energy" || eff.type === "redPacket" || eff.type === "socialDebt") {
+        normalEffects[eff.type] = (normalEffects[eff.type] ?? 0) + eff.delta;
+      }
+    }
+  } else if (choice.effects && typeof choice.effects === "object") {
+    // 旧 events.js 风格：effects 是扁平对象
+    Object.assign(normalEffects, choice.effects);
+  }
 
-  // 2. 应用 NPC 好感度变化
+  // 2. 应用基础属性变化
+  let next = applyStatEffects(stats, normalEffects);
+
+  // 3. 应用 NPC 好感度变化
   if (choice.affinityChange && next.npcs) {
     for (const [npcId, delta] of Object.entries(choice.affinityChange)) {
       const cur = next.npcs[npcId] ?? 50;
@@ -145,7 +198,7 @@ export function applyEffects(stats, choice) {
     }
   }
 
-  // 3. 主线进度推进（如果是主线 quest）
+  // 4. 主线进度推进（如果是主线 quest）
   if (choice._event?.isMainQuest) {
     const currentIdx = next.currentMainQuestIndex ?? 0;
     next.mainQuestProgress = (next.mainQuestProgress ?? 0) + 1;
@@ -159,7 +212,250 @@ export function applyEffects(stats, choice) {
     }
   }
 
+  // 5. 应用 flag 标记
+  if (flagEffects.length > 0) {
+    if (!next.flags) next.flags = {};
+    for (const f of flagEffects) {
+      next.flags[f.key] = f.value;
+    }
+  }
+
   return next;
+}
+
+// ===== v3 新增：多维度属性访问辅助函数 =====
+// 从 stats 中读取一个多维度属性值，未定义时返回 0
+// 优先读取嵌套 stats.attributes，缺失时回退到平级 stats[key]
+export function getAttribute(stats, attrName) {
+  if (!stats) return 0;
+  if (stats.attributes && stats.attributes[attrName] !== undefined) {
+    return stats.attributes[attrName];
+  }
+  if (stats[attrName] !== undefined) return stats[attrName];
+  return 0;
+}
+
+// 从 stats 中读取 NPC 好感度（npc_xxx 或 npc_xxx_affection）
+export function getNpcAffinity(stats, npcId) {
+  if (!stats) return 0;
+  if (stats.npcs && stats.npcs[npcId] !== undefined) {
+    return stats.npcs[npcId];
+  }
+  // player_stats.js 用 npc_xxx_affection 形式
+  const flatKey = `${npcId}_affection`;
+  if (stats[flatKey] !== undefined) return stats[flatKey];
+  return 0;
+}
+
+// 获取当前游戏天数
+export function getDay(stats) {
+  return stats?.day ?? 1;
+}
+
+// 获取红包余额
+export function getRedPacket(stats) {
+  return stats?.redPacket ?? 0;
+}
+
+// 读取 flag
+export function hasFlag(stats, key) {
+  return Boolean(stats?.flags?.[key]);
+}
+
+// ===== v3 新增：技能检定 =====
+// 检查玩家属性是否通过难度检定，返回 boolean
+// 难度值 0-100，玩家的属性值 >= difficulty 时成功
+export function skillCheck(stats, attrName, difficulty) {
+  const attrValue = getAttribute(stats, attrName);
+  return attrValue >= difficulty;
+}
+
+// ===== v3 新增：格式化所有属性变化（包括 attributes 和资源）=====
+export function formatAllEffects(effects) {
+  if (!effects) return "";
+  const parts = [];
+  const NPC_NAME_MAP = {
+    npc_mom: "妈妈", npc_dad: "爸爸", npc_grandma: "奶奶",
+    npc_bestie: "闺蜜", npc_ex: "前任", npc_blind_date: "相亲对象",
+  };
+  const ATTR_NAME_MAP = {
+    career: "事业心", family: "家庭", independence: "独立",
+    resilience: "韧性", romance: "浪漫", energy: "精力",
+  };
+  for (const eff of (Array.isArray(effects) ? effects : [])) {
+    if (eff.type === "attr") {
+      const label = ATTR_NAME_MAP[eff.target] ?? eff.target;
+      parts.push(`${label} ${eff.delta > 0 ? "+" : ""}${eff.delta}`);
+    } else if (eff.type === "affection") {
+      const npcId = eff.target.replace(/_affection$/, "");
+      const label = NPC_NAME_MAP[npcId] ?? npcId;
+      parts.push(`${label}好感 ${eff.delta > 0 ? "+" : ""}${eff.delta}`);
+    } else if (eff.type === "energy") {
+      parts.push(`精力 ${eff.delta > 0 ? "+" : ""}${eff.delta}`);
+    } else if (eff.type === "redPacket") {
+      parts.push(`红包 ${eff.delta > 0 ? "+" : ""}${eff.delta}`);
+    } else if (eff.type === "socialDebt") {
+      parts.push(`人情 ${eff.delta > 0 ? "+" : ""}${eff.delta}`);
+    } else if (eff.type === "flag") {
+      parts.push(`标记 ${eff.key}=${eff.value}`);
+    }
+  }
+  // 兼容扁平对象格式
+  if (!Array.isArray(effects) && typeof effects === "object") {
+    for (const [key, delta] of Object.entries(effects)) {
+      const label = ATTR_NAME_MAP[key] ?? key;
+      parts.push(`${label} ${delta > 0 ? "+" : ""}${delta}`);
+    }
+  }
+  return parts.join(" · ");
+}
+
+// ===== v4 新增：应用时间段活动效果 =====
+// activity = { energyCost, redPacketCost, effect: {type, target, delta}, attrEffect }
+// 返回值：{ stats, changes }  其中 changes 用于 UI 显示
+//
+// effect.type 取值：
+//   "affection"        target: "npc_mom_affection" → 修改 stats.npcs.npc_mom
+//   "attr"             target: "career"           → 修改 stats.career (同时写 attributes)
+//   "redPacket"        delta: 整数                 → 修改 stats.redPacket
+//   "energy"           delta: 整数                 → 修改 stats.energy
+//   "advance_main"     推进 mainQuestIndex
+//   "open_side_quests" 标记打开支线任务 UI
+//   "open_outcome_preview" 标记打开结局预览 UI
+export function applyActivityEffect(stats, activity) {
+  // 浅拷贝 stats，但深拷贝 npcs（避免共享引用导致外部 stats 被意外修改）
+  const next = { ...stats };
+  if (stats.npcs && typeof stats.npcs === "object") {
+    next.npcs = { ...stats.npcs };
+  }
+  if (stats.attributes && typeof stats.attributes === "object") {
+    next.attributes = { ...stats.attributes };
+  }
+  const changes = [];
+  // 追踪本活动已应用的资源类型，避免 effect 与 energyCost/redPacketCost 重复计数
+  const appliedResources = new Set();
+
+  // 1. 处理精力消耗/恢复
+  const energyCost = activity.energyCost ?? 0;
+  if (energyCost !== 0) {
+    const prev = next.energy ?? 0;
+    let newEnergy = prev - energyCost;
+    newEnergy = Math.max(0, Math.min(next.maxEnergy ?? 100, newEnergy));
+    next.energy = newEnergy;
+    // 负数 energyCost 表示恢复精力，显示为正向 delta
+    const displayDelta = energyCost < 0 ? -energyCost : -energyCost;
+    changes.push({ type: "energy", label: "⚡ 精力", delta: displayDelta });
+    appliedResources.add("energy");
+  }
+
+  // 2. 处理金钱消耗（redPacketCost）
+  if (activity.redPacketCost) {
+    const prev = next.redPacket ?? 0;
+    next.redPacket = Math.max(0, prev - activity.redPacketCost);
+    changes.push({ type: "redPacket", label: "🧧 红包", delta: -activity.redPacketCost });
+    appliedResources.add("redPacket");
+  }
+
+  // 3. 处理 effect（按 type 分发）
+  const eff = activity.effect || {};
+  switch (eff.type) {
+    case "affection": {
+      const npcKey = (eff.target || "").replace(/_affection$/, "");
+      if (npcKey && next.npcs) {
+        const prev = next.npcs[npcKey] ?? 50;
+        const newVal = Math.max(0, Math.min(100, prev + (eff.delta || 0)));
+        next.npcs[npcKey] = newVal;
+        const meta = {
+          npc_mom:        { name: "妈妈" },
+          npc_dad:        { name: "爸爸" },
+          npc_grandma:    { name: "奶奶" },
+          npc_bestie:     { name: "闺蜜" },
+          npc_ex:         { name: "前任" },
+          npc_blind_date: { name: "相亲对象" },
+        }[npcKey] || { name: npcKey };
+        changes.push({ type: "npc", label: `💕 ${meta.name}好感`, delta: eff.delta, key: npcKey });
+      }
+      break;
+    }
+    case "attr": {
+      const key = eff.target;
+      const prev = next[key] ?? 50;
+      const newVal = Math.max(0, Math.min(100, prev + (eff.delta || 0)));
+      next[key] = newVal;
+      // 同步更新 attributes 子对象
+      if (!next.attributes) next.attributes = {};
+      next.attributes[key] = newVal;
+      const labels = { career: "事业", family: "家庭", independence: "独立", romance: "浪漫", resilience: "抗压" };
+      changes.push({ type: "attr", label: labels[key] || key, delta: eff.delta, key });
+      break;
+    }
+    case "redPacket": {
+      // 若 redPacketCost 已经处理过金钱变化，这里跳过避免重复
+      if (appliedResources.has("redPacket")) break;
+      const prev = next.redPacket ?? 0;
+      next.redPacket = Math.max(0, prev + (eff.delta || 0));
+      if (eff.delta !== 0) {
+        changes.push({ type: "redPacket", label: "🧧 红包", delta: eff.delta });
+      }
+      break;
+    }
+    case "energy": {
+      // 若 energyCost 已经处理过精力变化，这里跳过避免重复
+      if (appliedResources.has("energy")) break;
+      const prev = next.energy ?? 0;
+      const newEnergy = Math.max(0, Math.min(next.maxEnergy ?? 100, prev + (eff.delta || 0)));
+      next.energy = newEnergy;
+      if (eff.delta !== 0) {
+        changes.push({ type: "energy", label: "⚡ 精力", delta: eff.delta });
+      }
+      break;
+    }
+    case "advance_main": {
+      next.mainQuestProgress = (next.mainQuestProgress ?? 0) + 1;
+      if ((next.currentMainQuestIndex ?? 0) < 9) {
+        next.currentMainQuestIndex = (next.currentMainQuestIndex ?? 0) + 1;
+      }
+      changes.push({ type: "mainline", label: "🧧 主线进度", delta: 1 });
+      break;
+    }
+    case "open_side_quests": {
+      changes.push({ type: "ui", label: "🔍 查看支线任务", ui: "side_quests" });
+      break;
+    }
+    case "open_outcome_preview": {
+      changes.push({ type: "ui", label: "🔮 结局预览", ui: "outcome_preview" });
+      break;
+    }
+    default:
+      break;
+  }
+
+  // 4. 处理 attrEffect（5 大属性微调 + NPC 好感度额外加成）
+  if (activity.attrEffect && typeof activity.attrEffect === "object") {
+    const labels = { career: "事业", family: "家庭", independence: "独立", romance: "浪漫", resilience: "抗压" };
+    const npcLabels = { npc_mom: "妈妈", npc_dad: "爸爸", npc_grandma: "奶奶", npc_bestie: "闺蜜", npc_ex: "前任", npc_blind_date: "相亲对象" };
+    for (const [rawKey, delta] of Object.entries(activity.attrEffect)) {
+      if (delta === 0 || delta == null) continue;
+      // 归一化 NPC key（兼容 "npc_mom_affection" / "npc_mom" 两种写法）
+      const key = rawKey.replace(/_affection$/, "");
+      if (npcLabels[key]) {
+        if (next.npcs) {
+          const prev = next.npcs[key] ?? 50;
+          next.npcs[key] = Math.max(0, Math.min(100, prev + delta));
+          changes.push({ type: "npc", label: `💕 ${npcLabels[key]}好感`, delta: delta });
+        }
+      } else {
+        const prev = next[key] ?? 50;
+        const newVal = Math.max(0, Math.min(100, prev + delta));
+        next[key] = newVal;
+        if (!next.attributes) next.attributes = {};
+        next.attributes[key] = newVal;
+        changes.push({ type: "attr", label: labels[key] || key, delta: delta, key });
+      }
+    }
+  }
+
+  return { stats: next, changes };
 }
 
 // 是否触发结局（扩展版，包含主线结局）

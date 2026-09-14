@@ -1,7 +1,10 @@
 // gameState.js - 本地存档管理（localStorage）
 // v2: 新增 npcs 好感度、mainQuestProgress 主线进度
+// v3: 新增 time/energy/5 大属性/resources 玩家养成属性
 
-const SAVE_KEY = "yuelao_save_v2";  // 升版本，旧档会被忽略
+import { createDefaultPlayerStats } from "../../data/player_stats.js";
+
+const SAVE_KEY = "yuelao_save_v3";  // 升版本，旧档会被忽略
 
 // 6 个 NPC 的初始好感度（来自 npcs.js 的 initialAffinity）
 const DEFAULT_NPCS = {
@@ -28,6 +31,9 @@ export const QUEST_TITLES = [
 ];
 
 export function createNewGameState(profile) {
+  // v3 玩家养成属性（来自 data/player_stats.js）
+  const ps = createDefaultPlayerStats();
+
   return {
     profile,
     currentStats: {
@@ -44,13 +50,46 @@ export function createNewGameState(profile) {
       triggeredEventIds: [],
 
       // ===== v2 新增 =====
-      // NPC 好感度（0-100）
+      // NPC 好感度（0-100）—— 存放在 npcs 对象里
       npcs: { ...DEFAULT_NPCS },
 
       // 主线进度
       mainQuestProgress:       0,   // 已完成第几章主线（0 = 还没开始）
       currentMainQuestIndex:   0,   // 当前要触发的主线 index（0-9）
       completedMainQuestIds:  [],   // 已完成的主线 id 列表
+
+      // ===== v3 新增：玩家养成属性（顶层字段）=====
+      // 时间系统
+      day:              ps.day,
+      timeSlot:         ps.timeSlot,
+      timeSlotsTotal:   ps.timeSlotsTotal,
+      maxTimeSlots:     ps.maxTimeSlots,
+      // 5 大属性
+      family:           ps.family,
+      career:           ps.career,
+      independence:     ps.independence,
+      romance:          ps.romance,
+      resilience:       ps.resilience,
+      // 资源
+      energy:           ps.energy,
+      maxEnergy:        ps.maxEnergy,
+      redPacket:        ps.redPacket,
+      socialDebt:       ps.socialDebt,
+
+      // ===== v5 新增：危机事件系统字段 =====
+      // 嵌套属性镜像（crisis 系统使用 stats.attributes.*）
+      attributes: {
+        career:       ps.career,
+        family:       ps.family,
+        independence: ps.independence,
+        resilience:   ps.resilience,
+        romance:      ps.romance,
+        energy:       ps.energy,
+      },
+      // 剧情标记位
+      flags: {},
+      // 已触发的危机事件 id 列表
+      triggeredCrisisIds: [],
     },
     chaptersPlayed: 0,
     currentView: "stats",
@@ -71,7 +110,7 @@ export function loadGame() {
     const raw = localStorage.getItem(SAVE_KEY);
     if (!raw) return null;
     const state = JSON.parse(raw);
-    // v1 → v2 迁移：补全缺失字段
+    // 补全缺失字段（兼容旧版本）
     if (state.currentStats) {
       if (!state.currentStats.npcs) {
         state.currentStats.npcs = { ...DEFAULT_NPCS };
@@ -85,6 +124,27 @@ export function loadGame() {
       if (!state.currentStats.completedMainQuestIds) {
         state.currentStats.completedMainQuestIds = [];
       }
+
+      // v3 迁移：用 PLAYER_STATS 默认值补全任何缺失的玩家养成字段
+      const psDefaults = createDefaultPlayerStats();
+      for (const [key, val] of Object.entries(psDefaults)) {
+        if (state.currentStats[key] === undefined) {
+          state.currentStats[key] = val;
+        }
+      }
+      // v5 迁移：补全危机事件系统字段
+      if (!state.currentStats.attributes) {
+        state.currentStats.attributes = {
+          career:       state.currentStats.career       ?? psDefaults.career,
+          family:       state.currentStats.family       ?? psDefaults.family,
+          independence: state.currentStats.independence ?? psDefaults.independence,
+          resilience:   state.currentStats.resilience   ?? psDefaults.resilience,
+          romance:      state.currentStats.romance      ?? psDefaults.romance,
+          energy:       state.currentStats.energy       ?? psDefaults.energy,
+        };
+      }
+      if (!state.currentStats.flags) state.currentStats.flags = {};
+      if (!state.currentStats.triggeredCrisisIds) state.currentStats.triggeredCrisisIds = [];
     }
     return state;
   } catch (e) {

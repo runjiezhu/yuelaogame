@@ -7,6 +7,9 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <!-- v4 新增：HUD 顶栏（时间/精力/红包/人情债）—— 顶部固定 -->
+  <div id="hud-bar" class="hud-bar"></div>
+
   <!-- 主线进度条（顶部固定） -->
   <div id="quest-tracker" class="quest-tracker" hidden>
     <div class="qt-header">
@@ -33,6 +36,11 @@
     <div class="ps-section">
       <div class="ps-section-label">属性</div>
       <div class="stat-compact" id="stat-compact"></div>
+    </div>
+    <!-- v4 新增：5 大养成属性条 -->
+    <div class="ps-section">
+      <div class="ps-section-label">5 大养成属性</div>
+      <div id="attr-bars" class="attr-bars"></div>
     </div>
   </aside>
 
@@ -88,16 +96,54 @@
     <section id="view-ending" class="view">
       <div class="ending-container">
         <div class="ending-mark">— 终 —</div>
+        <div class="ending-hero">
+          <div id="ending-emoji" class="ending-emoji"></div>
+          <span id="ending-category" class="ending-category" hidden></span>
+        </div>
         <h2 id="ending-name" class="ending-name"></h2>
+        <div id="ending-description" class="ending-description" hidden></div>
         <div id="ending-body" class="ending-body"></div>
-        <blockquote id="ending-insight" class="ending-insight"></blockquote>
+        <blockquote id="ending-insight" class="ending-insight" hidden></blockquote>
+        <div id="ending-stats" class="ending-stats" hidden></div>
         <div class="ending-buttons">
           <button id="btn-restart" class="btn btn--primary">再来一局</button>
           <button id="btn-back-title" class="btn btn--ghost">返回首页</button>
         </div>
       </div>
     </section>
+
+    <!-- 时间段活动选择 -->
+    <section id="view-timeslot" class="view">
+      <div class="time-slot-container">
+        <div class="time-slot-header">
+          <div class="ts-day">第 <span id="ts-day">1</span> 天</div>
+          <div class="ts-time" id="ts-time">🌅 上午</div>
+        </div>
+        <div class="ts-stats-row">
+          <div class="ts-stat">
+            <span class="ts-stat-label">⚡ 精力</span>
+            <div class="ts-stat-bar"><div class="ts-stat-fill ts-energy-fill" id="ts-energy-fill"></div></div>
+            <span class="ts-stat-value" id="ts-energy-value">100</span>
+          </div>
+          <div class="ts-stat">
+            <span class="ts-stat-label">🧧 红包</span>
+            <span class="ts-stat-value ts-money" id="ts-money">¥0</span>
+          </div>
+        </div>
+        <div class="ts-hint">选择这个时间段要做什么</div>
+        <div id="ts-activities" class="ts-activities"></div>
+      </div>
+    </section>
   </div>
+
+  <!-- 活动结果浮层 -->
+  <div id="activity-result" class="activity-result hidden"></div>
+
+  <!-- 结局预览浮层 -->
+  <div id="outcome-preview" class="activity-result outcome-preview hidden"></div>
+
+  <!-- 支线任务浮层 -->
+  <div id="side-quests-panel" class="activity-result side-quests-panel hidden"></div>
 
   <!-- Toast -->
   <div id="toast" class="toast" hidden></div>

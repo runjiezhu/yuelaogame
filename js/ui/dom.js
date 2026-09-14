@@ -67,3 +67,29 @@ export function hideProfileSidebar() {
   const el = document.getElementById("profile-sidebar");
   if (el) el.setAttribute("hidden", "");
 }
+
+// ===== v3 新增：支线任务面板 =====
+export function showSideQuestPanel() {
+  const el = document.getElementById("side-quests-panel");
+  if (el) {
+    el.removeAttribute("hidden");
+    el.classList.remove("hidden");
+  }
+}
+export function hideSideQuestPanel() {
+  const el = document.getElementById("side-quests-panel");
+  if (el) {
+    el.setAttribute("hidden", "");
+    el.classList.add("hidden");
+  }
+}
+
+// ===== v4 新增：HUD 顶栏 =====
+export function showHUD() {
+  const el = document.getElementById("hud-bar");
+  if (el) el.classList.add("is-active");
+}
+export function hideHUD() {
+  const el = document.getElementById("hud-bar");
+  if (el) el.classList.remove("is-active");
+}

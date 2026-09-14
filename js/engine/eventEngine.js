@@ -1,10 +1,15 @@
 // 事件引擎：从 EVENTS 池中按当前 stats 筛事件，返回下一个可用事件
 // v2: 主线优先 + NPC 好感度 + 春节主线
+// v3: 新增 10% 概率触发危机事件（crisisEngine）
 import { EVENTS, getMainQuestEvents, getRandomEvents } from "../../data/events.js";
 import { ENDINGS } from "../../data/endings.js";
 import { INSIGHTS } from "../../data/insights.js";
 import { shouldTriggerEnding, ageToBand } from "./statSystem.js";
 import { NPCS_FEMALE, NPCS_MALE } from "../../data/npcs_gender.js";
+import { CrisisEngine, CRISIS_TRIGGER_RATE } from "./crisisEngine.js";
+
+// 全局单一 crisisEngine 实例（无需每日重建）
+const crisisEngine = new CrisisEngine();
 
 // 性别归一化
 const GENDER_MAP = { F: "女", M: "男", 男: "男", 女: "女" };
@@ -275,6 +280,23 @@ export function nextStep(stats, chaptersPlayed, usedEventIds) {
   const endingCheck = shouldTriggerEnding(stats, chaptersPlayed);
   if (endingCheck.trigger) {
     return { type: "ending", ending: matchEnding(stats) };
+  }
+
+  // ===== v3 新增：随机危机事件插队（10% 概率）=====
+  // 在主线 / 随机事件之前先判定，确保高压力情境有机会出现
+  if (crisisEngine.canTrigger(stats) && Math.random() < CRISIS_TRIGGER_RATE) {
+    const crisis = crisisEngine.selectCrisis(stats);
+    if (crisis) {
+      console.log(`[eventEngine] 触发危机事件: ${crisis.id}`);
+      // 标记为已触发 + 今日已触发（crisisEngine.trigger 内部处理）
+      const updatedStats = crisisEngine.trigger(crisis, stats);
+      return {
+        type: "crisis",
+        crisis,
+        // 把更新后的 stats 透传出去，让 main.js 写入存档
+        updatedStats,
+      };
+    }
   }
 
   // ===== 随机事件插队机制 =====
