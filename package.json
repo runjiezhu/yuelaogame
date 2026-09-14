@@ -1,0 +1,15 @@
+{
+  "name": "yuelaogame",
+  "version": "1.0.0",
+  "description": "月老养成 · 婚恋模拟器",
+  "type": "module",
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "monitor": "node scripts/monitor.mjs",
+    "test": "node scripts/e2e_test.mjs",
+    "validate": "node scripts/validate_data.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>月老养成 · 婚恋模拟器</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app">
+    <!-- 开屏 -->
+    <section id="view-title" class="view view--active">
+      <div class="title-card">
+        <h1 class="game-title">月老养成</h1>
+        <p class="game-subtitle">一个基于真实婚恋经验的模拟器</p>
+        <p class="game-blurb">你的开局画像、剧情分支、经验金句<br>全部来自 980 条真实红娘连麦案例</p>
+        <div class="title-buttons">
+          <button id="btn-new-game" class="btn btn--primary">新开一局</button>
+          <button id="btn-continue" class="btn btn--ghost" hidden>继续上次</button>
+        </div>
+        <p class="footnote">适合婚期 23-35 岁 · 一局 15-25 分钟</p>
+      </div>
+    </section>
+
+    <!-- 角色卡 -->
+    <section id="view-card" class="view">
+      <div class="card-container">
+        <h2 class="card-title">这是你这一局的画像</h2>
+        <div id="card-content"></div>
+        <div class="card-buttons">
+          <button id="btn-reroll" class="btn btn--ghost">换一个</button>
+          <button id="btn-confirm" class="btn btn--primary">就是我了，开始</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 属性面板（每章开头） -->
+    <section id="view-stats" class="view">
+      <div class="stats-container">
+        <div class="phase-header">
+          <span id="phase-label" class="phase-label">黄金期</span>
+          <span id="age-label" class="age-label">25岁</span>
+        </div>
+        <div id="stat-panels"></div>
+        <button id="btn-start-chapter" class="btn btn--primary">进入本章</button>
+      </div>
+    </section>
+
+    <!-- 章节剧情 -->
+    <section id="view-novel" class="view">
+      <div class="novel-container">
+        <h3 id="chapter-title" class="chapter-title"></h3>
+        <div id="chapter-body" class="chapter-body"></div>
+        <div id="chapter-choices" class="chapter-choices"></div>
+      </div>
+    </section>
+
+    <!-- 结局 -->
+    <section id="view-ending" class="view">
+      <div class="ending-container">
+        <div class="ending-mark">— 终 —</div>
+        <h2 id="ending-name" class="ending-name"></h2>
+        <div id="ending-body" class="ending-body"></div>
+        <blockquote id="ending-insight" class="ending-insight"></blockquote>
+        <div class="ending-buttons">
+          <button id="btn-restart" class="btn btn--primary">再来一局</button>
+          <button id="btn-back-title" class="btn btn--ghost">返回首页</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast" hidden></div>
+
+  <!-- Loading -->
+  <div id="loading" class="loading" hidden>
+    <div class="loading-spinner"></div>
+    <div class="loading-text">翻开你的命运...</div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
