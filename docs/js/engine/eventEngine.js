@@ -277,15 +277,29 @@ export function nextStep(stats, chaptersPlayed, usedEventIds) {
     return { type: "ending", ending: matchEnding(stats) };
   }
 
+  // ===== 随机事件插队机制 =====
+  // 主线进度 < 10 时，40% 概率插入随机事件
+  const currentMainQuestIndex = stats.currentMainQuestIndex ?? 0;
+  if (currentMainQuestIndex < 10 && Math.random() < 0.4) {
+    const randomEvent = pickRandomEvent(stats, usedEventIds);
+    if (randomEvent) {
+      console.log(`[eventEngine] 随机事件插队: ${randomEvent.id}`);
+      return { type: "event", event: { ...randomEvent, choices: enrichChoices(randomEvent) } };
+    }
+  }
+
+  // ===== 主线优先 =====
   const mainEvent = pickMainQuestEvent(stats, usedEventIds);
   if (mainEvent) {
     return { type: "event", event: { ...mainEvent, choices: enrichChoices(mainEvent) } };
   }
 
+  // ===== 没有主线了，尝试随机事件 =====
   const randomEvent = pickRandomEvent(stats, usedEventIds);
   if (randomEvent) {
     return { type: "event", event: { ...randomEvent, choices: enrichChoices(randomEvent) } };
   }
 
+  // ===== 都没有了，触发结局 =====
   return { type: "ending", ending: matchEnding(stats) };
 }

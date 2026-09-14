@@ -678,3 +678,32 @@ html, body {
   }
   #view-novel { padding-top: 0; }
 }
+
+/* =============================================
+   v3 新增：NPC 头像圆圈
+   ============================================= */
+.npc-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(193,68,14,.2) 0%, rgba(201,168,76,.15) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60px;
+  box-shadow: 0 8px 24px rgba(193,68,14,.3);
+  margin: 0 auto 16px;
+  flex-shrink: 0;
+}
+
+/* =============================================
+   v3 新增：场景插画
+   ============================================= */
+.scene-img {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 12px;
+  margin: 24px auto;
+  display: block;
+  box-shadow: 0 4px 16px rgba(0,0,0,.3);
+}
