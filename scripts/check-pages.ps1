@@ -1,22 +1,23 @@
 $ErrorActionPreference = 'Stop'
-$base = 'https://runjiezhu.github.io/yuelaogame/'
+$base = 'https://runjiezhu.github.io/yuelaogame'
 $paths = @(
-  '',
-  'docs/css/style.css',
-  'docs/js/main.js',
-  'docs/js/engine/eventEngine.js',
-  'docs/js/engine/gameState.js',
-  'docs/data/npcs.js',
-  'docs/data/quests.js',
-  'docs/data/events.js',
-  'docs/data/endings.js'
+  '/',
+  '/css/style.css',
+  '/js/main.js',
+  '/js/engine/eventEngine.js',
+  '/js/engine/gameState.js',
+  '/js/engine/statSystem.js',
+  '/data/npcs.js',
+  '/data/quests.js',
+  '/data/events.js',
+  '/data/endings.js'
 )
 foreach ($p in $paths) {
   $u = $base + $p
   try {
     $r = Invoke-WebRequest -Uri $u -UseBasicParsing -TimeoutSec 10
-    '{0,-42}  HTTP {1}  {2,8} B' -f $u, $r.StatusCode, $r.RawContentLength
+    '{0,-58}  HTTP {1}  {2,8} B' -f $u, $r.StatusCode, $r.RawContentLength
   } catch {
-    '{0,-42}  FAIL: {1}' -f $u, $_.Exception.Message
+    '{0,-58}  FAIL: {1}' -f $u, $_.Exception.Message
   }
 }

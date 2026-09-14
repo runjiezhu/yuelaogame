@@ -20,6 +20,22 @@
   - 完成时间：2026/9/14 19:37
   - 调优内容：放宽"差不多就得了"触发条件（章节>=5 且年龄>=30）
 
+- [x] **修复 statSystem.js 重复声明 + 数据文件裸引号** @priority:high @status:done
+  - 完成时间：2026/9/15 07:00
+  - 修复内容：
+    - `js/engine/statSystem.js`：移除重复的 `applyEffects` 与 `shouldTriggerEnding`
+    - `data/events.js` line 377/422：2 处 consequence 字段缺失闭合 `"`
+    - `data/events.js` line 1157：1 处多余前导 `"`
+    - `data/npcs.js`：3 处关系字段内嵌未转义 ASCII `"` → 改为 `「」`
+  - 影响：游戏上线后大屏一片空白、按钮点不开的根因已修复
+
+- [x] **GitHub Pages 上线 + 自动同步** @priority:high @status:done
+  - 完成时间：2026/9/15 06:55
+  - 地址：https://runjiezhu.github.io/yuelaogame/
+  - 部署源：main 分支 /docs 路径（legacy 模式）
+  - 已验证：index/css/js/data 全部 HTTP 200
+  - 守护：`scripts/guardian.mjs` + `scripts/sync-watcher.mjs` 持续运行
+
 ## 中优先级
 
 - [x] **继续游戏功能** @priority:medium @status:done
