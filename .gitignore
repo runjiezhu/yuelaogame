@@ -4,3 +4,7 @@ Thumbs.db
 *.log
 .obsidian/
 .vscode/
+.cursor/
+_extracted/
+package-lock.json
+play.bat
