@@ -168,30 +168,30 @@ const RANDOM_EVENTS = [
       cityTiers: ["一线", "新一线", "二线"]
     },
     phase: 2,
-    body: "周六中午，你正在睡懒觉，手机连续震动了好几下。是闺蜜小敏发来的消息：<npc_bestie>「姐妹！中午有空吗！」<npc_bestie>「我发现一家超好吃的餐厅！」<npc_bestie>「必须带你去！有好几个帅哥！」<npc_bestie>你看着最后一条消息，哭笑不得。小敏结婚后就开始热衷于给你介绍对象，每次约饭都会「刚好」叫上她老公的同事或朋友。<npc_bestie>「上次那个怎么样？有没有联系？」<npc_bestie>你想起上周小敏安排的「偶遇」，对方是个程序员，全程低头吃饭，话题只有代码。你婉拒了，小敏还念叨了好几天。",
+    body: "周六中午，你正在睡懒觉，手机连续震动了好几下。是{{npc_bestie.name}}发来的消息：<npc_bestie>「姐妹！中午有空吗！」<npc_bestie>「我发现一家超好吃的餐厅！」<npc_bestie>「必须带你去！有好几个帅哥！」<npc_bestie>你看着最后一条消息，哭笑不得。{{npc_bestie.name}}结婚后就开始热衷于给你介绍对象，每次约饭都会「刚好」叫上她老公的同事或朋友。<npc_bestie>「上次那个怎么样？有没有联系？」<npc_bestie>你想起上周{{npc_bestie.name}}安排的「偶遇」，对方是个程序员，全程低头吃饭，话题只有代码。你婉拒了，{{npc_bestie.name}}还念叨了好几天。",
     diagnosis: "",
     npcInvolved: ["npc_bestie"],
     choices: [
       {
-        text: "去赴约，顺便跟小敏聊聊心里话",
+        text: "去赴约，顺便跟{{npc_bestie.name}}聊聊心里话",
         effects: { confidence: 5, social: 8, age: 0 },
         tone: "conservative",
         affinityChange: { npc_bestie: 15 },
-        consequence: "你们聊了一下午，从工作聊到生活，从吐槽老板聊到感情困惑。小敏说：「姐妹，你不是不想找，你就是怕受伤。」你愣了一下，好像被说中了什么。"
+        consequence: "你们聊了一下午，从工作聊到生活，从吐槽老板聊到感情困惑。{{npc_bestie.name}}说：「姐妹，你不是不想找，你就是怕受伤。」你愣了一下，好像被说中了什么。"
       },
       {
         text: "去赴约，但不提感情的事",
         effects: { confidence: 3, social: 5, age: 0 },
         tone: "aggressive",
         affinityChange: { npc_bestie: 5 },
-        consequence: "你们吃吃喝喝，聊明星八卦，聊最近新出的剧，就是不提感情。小敏最后叹了口气：「算了，你不想聊我就不问了。」但你看出她有点失落。"
+        consequence: "你们吃吃喝喝，聊明星八卦，聊最近新出的剧，就是不提感情。{{npc_bestie.name}}最后叹了口气：「算了，你不想聊我就不问了。」但你看出她有点失落。"
       },
       {
         text: "借口加班，不去赴约",
         effects: { confidence: -3, social: -5, age: 0 },
         tone: "idealist",
         affinityChange: { npc_bestie: -10 },
-        consequence: "小敏发来一个委屈的表情：「你又放我鸽子！」你有些愧疚，但就是不想出门。你把自己窝在沙发上，刷了一整天的短视频。"
+        consequence: "{{npc_bestie.name}}发来一个委屈的表情：「你又放我鸽子！」你有些愧疚，但就是不想出门。你把自己窝在沙发上，刷了一整天的短视频。"
       }
     ]
   },
@@ -396,16 +396,16 @@ const RANDOM_EVENTS = [
       cityTiers: ["一线", "新一线", "二线", "三四五线"]
     },
     phase: 2,
-    body: "周六下午，小敏约你喝奶茶。你到的时候，她正坐在靠窗的位置，手里捧着一杯温热的红枣茶。<npc_bestie>「姐妹，我要告诉你一个消息！」<npc_bestie>她的眼睛亮亮的，嘴角忍不住上扬。<npc_bestie>「我怀孕了！」<npc_bestie>你愣了一下，然后由衷地替她开心：「真的吗？太好了！」<npc_bestie>小敏摸着肚子，笑得像个傻子：「我老公知道的时候，愣了足足十秒钟，然后抱起我转了三圈，差点把我转吐了...」<npc_bestie>你们聊了很久关于孩子的话题。小敏突然话锋一转：「姐妹，你什么时候啊？咱俩要是差不多时间生孩子，以后还能当娃娃亲！」<npc_bestie>你笑了笑，没有接话。",
+    body: "周六下午，{{npc_bestie.name}}约你喝奶茶。你到的时候，她正坐在靠窗的位置，手里捧着一杯温热的红枣茶。<npc_bestie>「姐妹，我要告诉你一个消息！」<npc_bestie>她的眼睛亮亮的，嘴角忍不住上扬。<npc_bestie>「我怀孕了！」<npc_bestie>你愣了一下，然后由衷地替她开心：「真的吗？太好了！」<npc_bestie>{{npc_bestie.name}}摸着肚子，笑得像个傻子：「我老公知道的时候，愣了足足十秒钟，然后抱起我转了三圈，差点把我转吐了...」<npc_bestie>你们聊了很久关于孩子的话题。{{npc_bestie.name}}突然话锋一转：「姐妹，你什么时候啊？咱俩要是差不多时间生孩子，以后还能当娃娃亲！」<npc_bestie>你笑了笑，没有接话。",
     diagnosis: "",
     npcInvolved: ["npc_bestie"],
     choices: [
       {
-        text: "真心祝福小敏，聊一些关于孩子的话题",
+        text: "真心祝福{{npc_bestie.name}}，聊一些关于孩子的话题",
         effects: { confidence: 3, social: 8, age: 0 },
         tone: "conservative",
         affinityChange: { npc_bestie: 15 },
-        consequence: "你们聊了一下午关于育儿的经验，虽然你没什么实战经验，但你认真记下了小敏说的每一条。那天回家，你突然觉得有个孩子好像也不错。"
+        consequence: "你们聊了一下午关于育儿的经验，虽然你没什么实战经验，但你认真记下了{{npc_bestie.name}}说的每一条。那天回家，你突然觉得有个孩子好像也不错。"
       },
       {
         text: "有些羡慕，但嘴上不承认",
@@ -419,7 +419,7 @@ const RANDOM_EVENTS = [
         effects: { confidence: 0, social: -5, age: 0 },
         tone: "idealist",
         affinityChange: { npc_bestie: -5 },
-        consequence: "你把话题岔开，聊小敏老公，聊育儿产品的推荐。小敏看出你在回避，但也没追问。那天分开的时候，她说：「姐妹，你想聊的时候随时找我。」",
+        consequence: "你把话题岔开，聊{{npc_bestie.name}}老公，聊育儿产品的推荐。{{npc_bestie.name}}看出你在回避，但也没追问。那天分开的时候，她说：「姐妹，你想聊的时候随时找我。」",
       }
     ]
   },
@@ -624,30 +624,30 @@ const RANDOM_EVENTS = [
       cityTiers: ["一线", "新一线", "二线", "三四五线"]
     },
     phase: 3,
-    body: "半夜十二点，你被手机铃声吵醒。是小敏发来的微信，只有两个字：「姐妹。」你立刻回了过去。<npc_bestie>「怎么了？」<npc_bestie>电话那头，小敏哭得上气不接下气：「他说要离婚...他说他不爱我了...」<npc_bestie>你一下子清醒了。小敏结婚才两年，之前一直说老公对她很好，怎么会突然...<npc_bestie>「你别哭，慢慢说，到底怎么回事？」<npc_bestie>小敏抽噎着说了半天。大概是她老公最近工作压力大，经常加班，两个人沟通越来越少。今天吵了一架，她老公脱口而出说「这段婚姻是个错误」。<npc_bestie>你握着手机，不知道该说什么。",
+    body: "半夜十二点，你被手机铃声吵醒。是{{npc_bestie.name}}发来的微信，只有两个字：「姐妹。」你立刻回了过去。<npc_bestie>「怎么了？」<npc_bestie>电话那头，{{npc_bestie.name}}哭得上气不接下气：「他说要离婚...他说他不爱我了...」<npc_bestie>你一下子清醒了。{{npc_bestie.name}}结婚才两年，之前一直说老公对她很好，怎么会突然...<npc_bestie>「你别哭，慢慢说，到底怎么回事？」<npc_bestie>{{npc_bestie.name}}抽噎着说了半天。大概是她老公最近工作压力大，经常加班，两个人沟通越来越少。今天吵了一架，她老公脱口而出说「这段婚姻是个错误」。<npc_bestie>你握着手机，不知道该说什么。",
     diagnosis: "",
     npcInvolved: ["npc_bestie"],
     choices: [
       {
-        text: "安慰小敏，帮她分析问题",
+        text: "安慰{{npc_bestie.name}}，帮她分析问题",
         effects: { confidence: 5, social: 8, age: 0 },
         tone: "conservative",
         affinityChange: { npc_bestie: 15 },
-        consequence: "你陪小敏聊了两个小时，帮她分析问题出在哪里。最后你说：「你先别急着下结论，等他冷静下来再好好谈谈。」小敏慢慢平静下来：「谢谢你姐妹，有你真好。」"
+        consequence: "你陪{{npc_bestie.name}}聊了两个小时，帮她分析问题出在哪里。最后你说：「你先别急着下结论，等他冷静下来再好好谈谈。」{{npc_bestie.name}}慢慢平静下来：「谢谢你姐妹，有你真好。」"
       },
       {
         text: "说一些让她冷静的话",
         effects: { confidence: 3, social: 3, age: 0 },
         tone: "aggressive",
         affinityChange: { npc_bestie: 10 },
-        consequence: "你说：「婚姻都是这样，哪有不吵架的。你先冷静冷静，明天再说。」小敏嗯了一声，但你知道她还是很伤心。那一晚，你也没睡好。"
+        consequence: "你说：「婚姻都是这样，哪有不吵架的。你先冷静冷静，明天再说。」{{npc_bestie.name}}嗯了一声，但你知道她还是很伤心。那一晚，你也没睡好。"
       },
       {
         text: "不知道说什么，只是默默陪着她",
         effects: { confidence: 0, social: 5, age: 0 },
         tone: "idealist",
         affinityChange: { npc_bestie: 5 },
-        consequence: "你没有说什么，只是偶尔应和几句。电话两端都是沉默，但那种沉默让人安心。过了很久，小敏说：「谢谢你陪着我。」你们聊到凌晨三点，小敏终于困了，你们才挂掉电话。"
+        consequence: "你没有说什么，只是偶尔应和几句。电话两端都是沉默，但那种沉默让人安心。过了很久，{{npc_bestie.name}}说：「谢谢你陪着我。」你们聊到凌晨三点，{{npc_bestie.name}}终于困了，你们才挂掉电话。"
       }
     ]
   },
@@ -768,7 +768,7 @@ const RANDOM_EVENTS = [
 
   {
     id: "evt_bestie_friend_divorce",
-    title: "小敏的朋友离婚了",
+    title: "{{npc_bestie.name}}的朋友离婚了",
     sourceCaseId: "NPC_INTERACTION_020",
     trigger: {
       gender: ["女", "男"],
@@ -776,30 +776,30 @@ const RANDOM_EVENTS = [
       cityTiers: ["一线", "新一线", "二线", "三四五线"]
     },
     phase: 3,
-    body: "周末下午，你和小敏约在商场见面。小敏一脸凝重，不像平时那样叽叽喳喳。<npc_bestie>「怎么了？」<npc_bestie>「我闺蜜离婚了。」<npc_bestie>小敏叹了口气，「她结婚才一年多，老公就出轨了。」<npc_bestie>你有些惊讶。小敏的闺蜜你也见过，是个人很好的女生，和老公是相亲认识的，婚前感情还不错。<npc_bestie>「她老公看起来挺老实的，没想到...」<npc_bestie>「所以说，相亲认识的真的不靠谱。」小敏说，「还是要找自己真心喜欢的。」<npc_bestie>你看着小敏，心里有些复杂。她之前一直劝你「差不多就行了」，现在怎么又变了？",
+    body: "周末下午，你和{{npc_bestie.name}}约在商场见面。{{npc_bestie.name}}一脸凝重，不像平时那样叽叽喳喳。<npc_bestie>「怎么了？」<npc_bestie>「我闺蜜离婚了。」<npc_bestie>{{npc_bestie.name}}叹了口气，「她结婚才一年多，老公就出轨了。」<npc_bestie>你有些惊讶。{{npc_bestie.name}}的闺蜜你也见过，是个人很好的女生，和老公是相亲认识的，婚前感情还不错。<npc_bestie>「她老公看起来挺老实的，没想到...」<npc_bestie>「所以说，相亲认识的真的不靠谱。」{{npc_bestie.name}}说，「还是要找自己真心喜欢的。」<npc_bestie>你看着{{npc_bestie.name}}，心里有些复杂。她之前一直劝你「差不多就行了」，现在怎么又变了？",
     diagnosis: "",
     npcInvolved: ["npc_bestie"],
     choices: [
       {
-        text: "安慰小敏，聊聊那个闺蜜的情况",
+        text: "安慰{{npc_bestie.name}}，聊聊那个闺蜜的情况",
         effects: { confidence: 0, social: 5, age: 0 },
         tone: "conservative",
         affinityChange: { npc_bestie: 10 },
-        consequence: "你们聊了很久，分析那个闺蜜的婚姻哪里出了问题。小敏最后说：「所以结婚真的要慎重，不能将就。」你点点头，若有所思。"
+        consequence: "你们聊了很久，分析那个闺蜜的婚姻哪里出了问题。{{npc_bestie.name}}最后说：「所以结婚真的要慎重，不能将就。」你点点头，若有所思。"
       },
       {
-        text: "反驳小敏：「你之前不是说差不多就行吗」",
+        text: "反驳{{npc_bestie.name}}：「你之前不是说差不多就行吗」",
         effects: { confidence: 5, social: -3, age: 0 },
         tone: "aggressive",
         affinityChange: { npc_bestie: 0 },
-        consequence: "小敏愣了一下，然后叹了口气：「好吧，我之前说的也不全对...但你也不能太挑啊。」你们对视一眼，然后都笑了。"
+        consequence: "{{npc_bestie.name}}愣了一下，然后叹了口气：「好吧，我之前说的也不全对...但你也不能太挑啊。」你们对视一眼，然后都笑了。"
       },
       {
         text: "沉默思考，不知道该说什么",
         effects: { confidence: 3, social: 0, age: 0 },
         tone: "idealist",
         affinityChange: { npc_bestie: 5 },
-        consequence: "你没有说话，只是默默听着小敏说。那天下午，你们都沉默了很久，各自想着心事。离开的时候，小敏说：「姐妹，不管怎样，我都支持你。」"
+        consequence: "你没有说话，只是默默听着{{npc_bestie.name}}说。那天下午，你们都沉默了很久，各自想着心事。离开的时候，{{npc_bestie.name}}说：「姐妹，不管怎样，我都支持你。」"
       }
     ]
   },

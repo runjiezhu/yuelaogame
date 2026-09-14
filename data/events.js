@@ -629,25 +629,25 @@ const RANDOM_EVENTS = [
     npcInvolved: ["npc_bestie"],
     choices: [
       {
-        text: "安慰小敏，帮她分析问题",
+        text: "安慰{{npc_bestie.name}}，帮她分析问题",
         effects: { confidence: 5, social: 8, age: 0 },
         tone: "conservative",
         affinityChange: { npc_bestie: 15 },
-        consequence: "你陪小敏聊了两个小时，帮她分析问题出在哪里。最后你说：「你先别急着下结论，等他冷静下来再好好谈谈。」小敏慢慢平静下来：「谢谢你姐妹，有你真好。」"
+        consequence: "你陪{{npc_bestie.name}}聊了两个小时，帮她分析问题出在哪里。最后你说：「你先别急着下结论，等他冷静下来再好好谈谈。」{{npc_bestie.name}}慢慢平静下来：「谢谢你姐妹，有你真好。」"
       },
       {
         text: "说一些让她冷静的话",
         effects: { confidence: 3, social: 3, age: 0 },
         tone: "aggressive",
         affinityChange: { npc_bestie: 10 },
-        consequence: "你说：「婚姻都是这样，哪有不吵架的。你先冷静冷静，明天再说。」小敏嗯了一声，但你知道她还是很伤心。那一晚，你也没睡好。"
+        consequence: "你说：「婚姻都是这样，哪有不吵架的。你先冷静冷静，明天再说。」{{npc_bestie.name}}嗯了一声，但你知道她还是很伤心。那一晚，你也没睡好。"
       },
       {
         text: "不知道说什么，只是默默陪着她",
         effects: { confidence: 0, social: 5, age: 0 },
         tone: "idealist",
         affinityChange: { npc_bestie: 5 },
-        consequence: "你没有说什么，只是偶尔应和几句。电话两端都是沉默，但那种沉默让人安心。过了很久，小敏说：「谢谢你陪着我。」你们聊到凌晨三点，小敏终于困了，你们才挂掉电话。"
+        consequence: "你没有说什么，只是偶尔应和几句。电话两端都是沉默，但那种沉默让人安心。过了很久，{{npc_bestie.name}}说：「谢谢你陪着我。」你们聊到凌晨三点，{{npc_bestie.name}}终于困了，你们才挂掉电话。"
       }
     ]
   },
@@ -768,7 +768,7 @@ const RANDOM_EVENTS = [
 
   {
     id: "evt_bestie_friend_divorce",
-    title: "小敏的朋友离婚了",
+    title: "{{npc_bestie.name}}的朋友离婚了",
     sourceCaseId: "NPC_INTERACTION_020",
     trigger: {
       gender: ["女", "男"],
@@ -776,30 +776,30 @@ const RANDOM_EVENTS = [
       cityTiers: ["一线", "新一线", "二线", "三四五线"]
     },
     phase: 3,
-    body: "周末下午，你和小敏约在商场见面。小敏一脸凝重，不像平时那样叽叽喳喳。<npc_bestie>「怎么了？」<npc_bestie>「我闺蜜离婚了。」<npc_bestie>小敏叹了口气，「她结婚才一年多，老公就出轨了。」<npc_bestie>你有些惊讶。小敏的闺蜜你也见过，是个人很好的女生，和老公是相亲认识的，婚前感情还不错。<npc_bestie>「她老公看起来挺老实的，没想到...」<npc_bestie>「所以说，相亲认识的真的不靠谱。」小敏说，「还是要找自己真心喜欢的。」<npc_bestie>你看着小敏，心里有些复杂。她之前一直劝你「差不多就行了」，现在怎么又变了？",
+    body: "周末下午，你和{{npc_bestie.name}}约在商场见面。{{npc_bestie.name}}一脸凝重，不像平时那样叽叽喳喳。<npc_bestie>「怎么了？」<npc_bestie>「我闺蜜离婚了。」<npc_bestie>{{npc_bestie.name}}叹了口气，「她结婚才一年多，老公就出轨了。」<npc_bestie>你有些惊讶。{{npc_bestie.name}}的闺蜜你也见过，是个人很好的女生，和老公是相亲认识的，婚前感情还不错。<npc_bestie>「她老公看起来挺老实的，没想到...」<npc_bestie>「所以说，相亲认识的真的不靠谱。」{{npc_bestie.name}}说，「还是要找自己真心喜欢的。」<npc_bestie>你看着{{npc_bestie.name}}，心里有些复杂。她之前一直劝你「差不多就行了」，现在怎么又变了？",
     diagnosis: "",
     npcInvolved: ["npc_bestie"],
     choices: [
       {
-        text: "安慰小敏，聊聊那个闺蜜的情况",
+        text: "安慰{{npc_bestie.name}}，聊聊那个闺蜜的情况",
         effects: { confidence: 0, social: 5, age: 0 },
         tone: "conservative",
         affinityChange: { npc_bestie: 10 },
-        consequence: "你们聊了很久，分析那个闺蜜的婚姻哪里出了问题。小敏最后说：「所以结婚真的要慎重，不能将就。」你点点头，若有所思。"
+        consequence: "你们聊了很久，分析那个闺蜜的婚姻哪里出了问题。{{npc_bestie.name}}最后说：「所以结婚真的要慎重，不能将就。」你点点头，若有所思。"
       },
       {
-        text: "反驳小敏：「你之前不是说差不多就行吗」",
+        text: "反驳{{npc_bestie.name}}：「你之前不是说差不多就行吗」",
         effects: { confidence: 5, social: -3, age: 0 },
         tone: "aggressive",
         affinityChange: { npc_bestie: 0 },
-        consequence: "小敏愣了一下，然后叹了口气：「好吧，我之前说的也不全对...但你也不能太挑啊。」你们对视一眼，然后都笑了。"
+        consequence: "{{npc_bestie.name}}愣了一下，然后叹了口气：「好吧，我之前说的也不全对...但你也不能太挑啊。」你们对视一眼，然后都笑了。"
       },
       {
         text: "沉默思考，不知道该说什么",
         effects: { confidence: 3, social: 0, age: 0 },
         tone: "idealist",
         affinityChange: { npc_bestie: 5 },
-        consequence: "你没有说话，只是默默听着小敏说。那天下午，你们都沉默了很久，各自想着心事。离开的时候，小敏说：「姐妹，不管怎样，我都支持你。」"
+        consequence: "你没有说话，只是默默听着{{npc_bestie.name}}说。那天下午，你们都沉默了很久，各自想着心事。离开的时候，{{npc_bestie.name}}说：「姐妹，不管怎样，我都支持你。」"
       }
     ]
   },

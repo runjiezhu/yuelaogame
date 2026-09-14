@@ -199,42 +199,63 @@ function bindStartChapter() {
 }
 
 // ===== 进入章节剧情 =====
-function enterChapter() {
+async function enterChapter() {
   showLoading();
-  setTimeout(() => {
-    try {
-      const result = nextStep(
+  try {
+    // ===== 检查是否有分支跳转 =====
+    let result;
+    if (game.state.pendingNextQuestId) {
+      // 有分支跳转，直接获取指定的 quest
+      const { QUESTS } = await import("../data/quests.js");
+      const targetQuest = QUESTS.find(q => q.id === game.state.pendingNextQuestId);
+      if (targetQuest) {
+        console.log(`[main] 执行分支跳转: ${game.state.pendingNextQuestId}`);
+        result = { type: "event", event: targetQuest };
+        // 清除跳转标记
+        game.state.pendingNextQuestId = null;
+      } else {
+        console.warn(`[main] 找不到分支 quest: ${game.state.pendingNextQuestId}`);
+        // 降级为正常流程
+        result = nextStep(
+          game.state.currentStats,
+          game.state.chaptersPlayed,
+          game.state.currentStats.triggeredEventIds || []
+        );
+      }
+    } else {
+      // 正常流程
+      result = nextStep(
         game.state.currentStats,
         game.state.chaptersPlayed,
         game.state.currentStats.triggeredEventIds || []
       );
-
-      if (result.type === "ending") {
-        triggerEnding(result.ending);
-        return;
-      }
-
-      game.state.pendingEvent = result.event;
-      game.state.currentStats.triggeredEventIds = [
-        ...(game.state.currentStats.triggeredEventIds || []),
-        result.event.id,
-      ];
-      saveGame(game.state);
-
-      // v2: 更新进度条（如果触发了主线，显示当前章节）
-      const progress = game.state.currentStats.currentMainQuestIndex ?? 0;
-      const questTitle = result.event.title ?? getCurrentQuestTitle(game.state.currentStats);
-      renderQuestTracker(progress, questTitle, 10);
-      renderProfileSidebar(game.profile, game.state.currentStats);
-
-      showView("novel");
-      renderChapter(result.event, { onChoice: handleChoice });
-    } catch (e) {
-      showFatalError(e, "enterChapter");
-    } finally {
-      hideLoading();
     }
-  }, 200);
+
+    if (result.type === "ending") {
+      triggerEnding(result.ending);
+      return;
+    }
+
+    game.state.pendingEvent = result.event;
+    game.state.currentStats.triggeredEventIds = [
+      ...(game.state.currentStats.triggeredEventIds || []),
+      result.event.id,
+    ];
+    saveGame(game.state);
+
+    // v2: 更新进度条（如果触发了主线，显示当前章节）
+    const progress = game.state.currentStats.currentMainQuestIndex ?? 0;
+    const questTitle = result.event.title ?? getCurrentQuestTitle(game.state.currentStats);
+    renderQuestTracker(progress, questTitle, 10);
+    renderProfileSidebar(game.profile, game.state.currentStats);
+
+    showView("novel");
+    renderChapter(result.event, { onChoice: handleChoice });
+  } catch (e) {
+    showFatalError(e, "enterChapter");
+  } finally {
+    hideLoading();
+  }
 }
 
 // ===== 选项点击 =====
@@ -247,6 +268,14 @@ function handleChoice(choice) {
     _event: game.state.pendingEvent,
   });
   game.state.chaptersPlayed += 1;
+  
+  // ===== 处理分支跳转 =====
+  // 如果选项有 nextQuestId，记录下一个要跳转的 quest
+  if (choice.nextQuestId) {
+    game.state.pendingNextQuestId = choice.nextQuestId;
+    console.log(`[main] 分支跳转: 下一章将进入 ${choice.nextQuestId}`);
+  }
+  
   saveGame(game.state);
 
   renderChoiceResult(choice);
