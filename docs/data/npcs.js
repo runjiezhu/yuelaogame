@@ -15,7 +15,7 @@ export const NPCS = [
     relation: "妈妈",
     gender: "F",
     initialAffinity: 50,
-    personality: "朋友圈点赞型催婚：每个亲戚发朋友圈都@你，永远相信"你表姐都生二胎了"",
+    personality: '朋友圈点赞型催婚：每个亲戚发朋友圈都@你，永远相信「你表姐都生二胎了」',
     speechStyle: "妈：你看你表姐，二胎都会跑了！你什么时候能让我抱上外孙？",
     defaultTone: "warm",
     portrait: "👩",
@@ -38,7 +38,7 @@ export const NPCS = [
     relationships: {
       npc_dad: "表面上听你爸的，但关键时刻自己做主",
       npc_grandma: "婆媳关系微妙，但催婚立场一致",
-      npc_bestie: "觉得你闺蜜"不正经"，反对你们走太近"
+      npc_bestie: '觉得你闺蜜「不正经」，反对你们走太近'
     }
   },
 
@@ -73,7 +73,7 @@ export const NPCS = [
       "「（喝酒后）爸跟你说句心里话...」"
     ],
     relationships: {
-      npc_mom: "表面怕老婆，实际上是"妻管严"但关键时刻会护着你",
+      npc_mom: "表面怕老婆，实际上是「妻管严」但关键时刻会护着你",
       npc_grandma: "对你奶奶言听计从，从不敢顶嘴",
       npc_bestie: "觉得你闺蜜人不错，比你那些相亲对象强"
     }
@@ -90,7 +90,7 @@ export const NPCS = [
     relation: "奶奶/姥姥",
     gender: "F",
     initialAffinity: 60,
-    personality: "传统派灵魂三问："什么时候结婚？什么时候生孩子？什么时候生二胎？"",
+    personality: "传统派灵魂三问：「什么时候结婚？什么时候生孩子？什么时候生二胎？」",
     speechStyle: "奶奶：你也老大不小了，你妈像你这么大的时候，你都会跑了！",
     defaultTone: "warm",
     portrait: "👵",
@@ -100,7 +100,7 @@ export const NPCS = [
       "初一看你发呆的眼神",
       "初五给你塞红包"
     ],
-    backstory: "七十八岁，经历过三年困难时期，一辈子省吃俭用。最大的心愿就是看到全家团圆、四代同堂。每次家庭聚会都要坐主位，说话有分量，但耳背，经常把你说的"工作忙"听成"有对象了"。",
+    backstory: "七十八岁，经历过三年困难时期，一辈子省吃俭用。最大的心愿就是看到全家团圆、四代同堂。每次家庭聚会都要坐主位，说话有分量，但耳背，经常把你说的「工作忙」听成「有对象了」。",
     dialogueExamples: [
       "「什么时候结婚啊？奶奶这把老骨头，怕是等不到抱重孙了。」（擦眼泪）",
       "「你妈像我这么大的时候，你们都会满地跑了！」",

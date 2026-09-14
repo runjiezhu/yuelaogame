@@ -22,7 +22,14 @@
 
 ## 中优先级
 
-- [ ] **继续游戏功能** @priority:medium @status:todo
+- [x] **继续游戏功能** @priority:medium @status:done
+  - 完成时间：2026/9/15 06:55
+  - 通过 docs/ 部署到 GitHub Pages 实现持续在线
+
+- [x] **GitHub Pages 上线** @priority:high @status:done
+  - 完成时间：2026/9/15 06:55
+  - 地址：https://runjiezhu.github.io/yuelaogame/
+  - 已验证全部资源 HTTP 200
 
 - [ ] **增加角色卡动画** @priority:medium @status:todo
   - 当前角色卡静态，可以加抽卡动画（随机切换几个角色后停在最终结果）

@@ -25,13 +25,20 @@ function pickMainQuestEvent(stats, usedEventIds) {
   const idx = stats.currentMainQuestIndex ?? 0;
   const mainEvents = [...getMainQuestEvents()];
   mainEvents.sort((a, b) => (a.chapterIndex ?? 0) - (b.chapterIndex ?? 0));
+  
+  // 如果当前 index 超出主线总数，主线已全部完成
   if (idx >= mainEvents.length) return null;
+  
   const event = mainEvents[idx];
+  
+  // 如果当前主线事件已被触发过，跳过（不应该发生，但做防御）
   if (usedEventIds.includes(event.id)) return null;
+  
   return event;
 }
 
 // ===== 随机事件筛选 =====
+// 严格匹配：gender + ageBand + cityTier 都必须匹配
 function buildCandidates(stats, usedEventIds) {
   const playerAgeBand = ageToBand(stats.age);
   const normalizedGender = normGender(stats.gender);
@@ -40,21 +47,33 @@ function buildCandidates(stats, usedEventIds) {
   return getRandomEvents().filter((e) => {
     if (usedEventIds.includes(e.id)) return false;
     const trig = e.trigger || {};
+    
+    // 性别必须匹配
     if (trig.gender?.length > 0) {
       const trigGenders = trig.gender.map(normGender);
       if (!trigGenders.includes(normalizedGender)) return false;
-    } else { return false; }
+    } else { 
+      return false; 
+    }
+    
+    // 年龄段必须匹配
     if (trig.ageBands?.length > 0) {
       if (!trig.ageBands.includes(playerAgeBand)) return false;
-    } else { return false; }
+    } else { 
+      return false; 
+    }
+    
+    // 城市必须匹配
     if (trig.cityTiers?.length > 0) {
       const trigCityTiers = trig.cityTiers.map(normCityTier);
       if (!trigCityTiers.includes(normalizedCityTier)) return false;
     }
+    
     return true;
   });
 }
 
+// 宽松匹配：gender 必须匹配，ageBand 允许前后 3 个档位
 function buildCandidatesLenient(stats, usedEventIds) {
   const playerAgeBand = ageToBand(stats.age);
   const normalizedGender = normGender(stats.gender);
@@ -63,15 +82,24 @@ function buildCandidatesLenient(stats, usedEventIds) {
   return getRandomEvents().filter((e) => {
     if (usedEventIds.includes(e.id)) return false;
     const trig = e.trigger || {};
+    
+    // 性别必须匹配
     if (trig.gender?.length > 0) {
       const trigGenders = trig.gender.map(normGender);
       if (!trigGenders.includes(normalizedGender)) return false;
-    } else { return false; }
+    } else { 
+      return false; 
+    }
+    
+    // 年龄段宽松匹配（前后 3 个档位）
     if (trig.ageBands?.length > 0) {
       const trigBandIdxs = trig.ageBands.map(b => AGE_BAND_ORDER.indexOf(b));
       const nearMatch = trigBandIdxs.some(idx => idx >= 0 && Math.abs(idx - playerBandIdx) <= 3);
       if (!nearMatch) return false;
-    } else { return false; }
+    } else { 
+      return false; 
+    }
+    
     return true;
   });
 }

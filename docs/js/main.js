@@ -131,7 +131,7 @@ function handleContinue() {
       showView("novel");
       renderProfileSidebar(game.profile, game.state.currentStats);
       renderQuestTracker(
-        game.state.currentStats.mainQuestProgress ?? 0,
+        game.state.currentStats.currentMainQuestIndex ?? 0,
         getCurrentQuestTitle(game.state.currentStats),
         10
       );
@@ -142,7 +142,7 @@ function handleContinue() {
       renderStats(game.state.currentStats, phase);
       renderProfileSidebar(game.profile, game.state.currentStats);
       renderQuestTracker(
-        game.state.currentStats.mainQuestProgress ?? 0,
+        game.state.currentStats.currentMainQuestIndex ?? 0,
         getCurrentQuestTitle(game.state.currentStats),
         10
       );
@@ -171,7 +171,7 @@ function handleConfirm() {
   showQuestTracker();
   renderProfileSidebar(game.profile, game.state.currentStats);
   renderQuestTracker(
-    game.state.currentStats.mainQuestProgress ?? 0,
+    game.state.currentStats.currentMainQuestIndex ?? 0,
     getCurrentQuestTitle(game.state.currentStats),
     10
   );
@@ -186,7 +186,7 @@ function enterStats() {
   renderStats(game.state.currentStats, phase);
   renderProfileSidebar(game.profile, game.state.currentStats);
   renderQuestTracker(
-    game.state.currentStats.mainQuestProgress ?? 0,
+    game.state.currentStats.currentMainQuestIndex ?? 0,
     getCurrentQuestTitle(game.state.currentStats),
     10
   );
@@ -222,7 +222,7 @@ function enterChapter() {
       saveGame(game.state);
 
       // v2: 更新进度条（如果触发了主线，显示当前章节）
-      const progress = game.state.currentStats.mainQuestProgress ?? 0;
+      const progress = game.state.currentStats.currentMainQuestIndex ?? 0;
       const questTitle = result.event.title ?? getCurrentQuestTitle(game.state.currentStats);
       renderQuestTracker(progress, questTitle, 10);
       renderProfileSidebar(game.profile, game.state.currentStats);
@@ -254,7 +254,7 @@ function handleChoice(choice) {
   // v2: 更新侧边栏（affinity 变了）+ 进度条（主线推进了）
   renderProfileSidebar(game.profile, game.state.currentStats);
   renderQuestTracker(
-    game.state.currentStats.mainQuestProgress ?? 0,
+    game.state.currentStats.currentMainQuestIndex ?? 0,
     getCurrentQuestTitle(game.state.currentStats),
     10
   );

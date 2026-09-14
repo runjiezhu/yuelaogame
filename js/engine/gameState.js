@@ -7,9 +7,9 @@ const SAVE_KEY = "yuelao_save_v2";  // 升版本，旧档会被忽略
 const DEFAULT_NPCS = {
   npc_mom:        50,
   npc_dad:        50,
-  npc_grandma:    50,
-  npc_bestie:     50,
-  npc_ex:         30,   // 前任初始低一点
+  npc_grandma:    60,
+  npc_bestie:     70,
+  npc_ex:         20,   // 前任初始低一点
   npc_blind_date: 30,   // 相亲对象初始低一点
 };
 

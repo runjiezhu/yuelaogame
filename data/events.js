@@ -374,7 +374,7 @@ const RANDOM_EVENTS = [
         effects: { confidence: 3, social: 5, age: 0 },
         tone: "aggressive",
         affinityChange: { npc_grandma: 10 },
-        consequence: "你转了五千块给妈妈，让她给奶奶买点营养品。奶奶知道后，打电话骂你乱花钱，但语气里是藏不住的开心：「这孩子，有心了。」
+        consequence: "你转了五千块给妈妈，让她给奶奶买点营养品。奶奶知道后，打电话骂你乱花钱，但语气里是藏不住的开心：「这孩子，有心了。」",
       },
       {
         text: "工作忙，暂时不回去",
@@ -419,7 +419,7 @@ const RANDOM_EVENTS = [
         effects: { confidence: 0, social: -5, age: 0 },
         tone: "idealist",
         affinityChange: { npc_bestie: -5 },
-        consequence: "你把话题岔开，聊小敏老公，聊育儿产品的推荐。小敏看出你在回避，但也没追问。那天分开的时候，她说：「姐妹，你想聊的时候随时找我。」
+        consequence: "你把话题岔开，聊小敏老公，聊育儿产品的推荐。小敏看出你在回避，但也没追问。那天分开的时候，她说：「姐妹，你想聊的时候随时找我。」",
       }
     ]
   },
@@ -1154,7 +1154,7 @@ const RANDOM_EVENTS = [
         tone: "aggressive"
       },
       {
-        "text: "坚持自己的标准，宁缺毋滥",
+        text: "坚持自己的标准，宁缺毋滥",
         effects: { age: 2, confidence: 3, social: -5 },
         tone: "idealist"
       }
