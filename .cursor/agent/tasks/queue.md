@@ -49,6 +49,14 @@
   - 改动：636 行新增，79 行删除
   - commit: 07febc5
 
+- [x] **性别差异化：双 NPC 池 + 模板变量** @priority:high @status:done
+  - 完成时间：2026/9/15 07:25
+  - 改动：45+ 处文本"小敏" → `{{npc_bestie.name}}`
+  - 新增：`npcs_gender.js`（女主闺蜜小敏、男主兄弟阿强）
+  - 更新：eventEngine.js（动态选择 NPC 池）、views.js（模板引擎）
+  - 改动：512 行新增，86 行删除
+  - commit: d43021a
+
 ## 中优先级
 
 - [x] **继续游戏功能** @priority:medium @status:done
