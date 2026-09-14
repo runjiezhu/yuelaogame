@@ -36,6 +36,11 @@
   - 已验证：index/css/js/data 全部 HTTP 200
   - 守护：`scripts/guardian.mjs` + `scripts/sync-watcher.mjs` 持续运行
 
+- [x] **main.js 字段名统一** @priority:high @status:done
+  - 完成时间：2026/9/15 07:09
+  - 修复：5 处 `mainQuestProgress` → `currentMainQuestIndex`
+  - 影响：主线进度条能正确读取"当前章节"
+
 ## 中优先级
 
 - [x] **继续游戏功能** @priority:medium @status:done
