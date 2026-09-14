@@ -123,7 +123,8 @@ expect(r.stats.redPacket === 4800, `shopping redPacket 5000 - 200 = 4800`);
 expect(r.stats.family === 60, `shopping family 50 + 10 = 60`);
 
 console.log("\n=== Test 10: stay_up negative effects ===");
-r = applyActivityEffect(rich, DAILY_ACTIVITIES.stay_up);
+const stayUpStats = { ...rich, career: 50 };
+r = applyActivityEffect(stayUpStats, DAILY_ACTIVITIES.stay_up);
 expect(r.stats.energy === 80, `stay_up energy 100 - 20 = 80`);
 expect(r.stats.career === 45, `stay_up career 50 - 5 = 45`);
 

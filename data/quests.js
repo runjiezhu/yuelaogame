@@ -1772,6 +1772,8 @@ export const QUESTS = [
           { type: "affection", target: "npc_ex_affection", delta: 10 },
           { type: "affection", target: "npc_bestie_affection", delta: -5 }
         ],
+        // v7: 标记与前任重归于好
+        flags: { reconciled_ex: true },
         feedback: {
           success: "你决定先观察他的行动。接下来几天，陈一凡每天都会发微信给你，说他在考虑退婚的事。小敏警告你：「姐妹，别被他骗了！」",
           fail: "你犹豫着要不要答应，他却没有再联系你。原来他也没那么坚定。"
@@ -3199,6 +3201,8 @@ export const QUESTS = [
           { type: "attr", target: "social", delta: 5 },
           { type: "affection", target: "npc_blind_date_affection", delta: 20 }
         ],
+        // v7: 标记相亲进展顺利（触发相亲/异地恋结局的助推 flag）
+        flags: { completed_blind_date: true },
         feedback: {
           success: "林晓愣了一下，然后笑着点头：「好啊，正好我今晚没什么事。」你们约好了时间地点。回去的路上，你给小敏发微信：「姐妹，我好像有点心动。」小敏秒回一串感叹号。",
           fail: "你鼓起勇气约她，但她摇摇头：「今晚我妈让我回家吃饭，下次吧。」你有些失望。"
@@ -3349,6 +3353,8 @@ export const QUESTS = [
           { type: "attr", target: "resilience", delta: 8 },
           { type: "affection", target: "npc_grandma_affection", delta: 10 }
         ],
+        // v7: 标记完成奶奶心愿（让奶奶满意），作为回乡创业结局的前置条件
+        flags: { completed_grandma_wish: true },
         feedback: {
           success: "你回到饭桌，耐心听奶奶说完，然后认真地说：「奶奶，我在努力呢。」奶奶满意地点点头：「这还差不多。」",
           fail: "你回到饭桌，但奶奶继续唠叨，你忍不住顶了几句嘴，气氛一度很僵。"
@@ -4682,6 +4688,9 @@ export const QUESTS = [
           { type: "attr", target: "career", delta: 5 },
           { type: "affection", target: "npc_mom_affection", delta: -5 }
         ],
+        // v7: 标记明确选择单身，强制解锁「单身贵族」结局
+        flags: { completed_blind_date: false },
+        outcomes: ["outcome_romance_single_happy"],
         feedback: {
           success: "你开始享受单身生活，报了健身课、学了烹饪、读了十几本书。妈妈虽然偶尔还是唠叨，但也不再逼你了。",
           fail: "妈妈对你的选择有些失望，但还是接受了。"
@@ -4702,6 +4711,9 @@ export const QUESTS = [
           { type: "affection", target: "npc_mom_affection", delta: 25 },
           { type: "affection", target: "npc_dad_affection", delta: 25 }
         ],
+        // v7: 标记家庭关系深厚，强制解锁「家和万事兴」结局
+        flags: { completed_grandma_wish: true },
+        outcomes: ["outcome_family_harmony"],
         feedback: {
           success: "你每周都给爸妈打视频电话。妈妈笑着说：「你真的长大了。」",
           fail: "你忙起来还是会忘记打电话，妈妈有些失落。"
