@@ -465,50 +465,50 @@ export function shouldTriggerEnding(stats, chaptersPlayed) {
   const social = stats.social ?? 50;
   const totalScore = calcTotalScore(stats);
 
-  // 优先级 1：主线全部完成 → 触发年度战役结局
-  if ((stats.mainQuestProgress ?? 0) >= 10) {
+  // 优先级 1：主线全部完成 → 触发年度战役结局（30 章打完）
+  if ((stats.mainQuestProgress ?? 0) >= 30) {
     return { trigger: true, id: "ending_year_warrior", reason: "春节主线全部完成" };
   }
 
-  // 优先级 2：NPC 好感度触发结局（优先级高）
-  if (stats.npcs?.npc_blind_date >= 70) {
+  // 优先级 2：NPC 好感度触发结局（需要玩够章节）
+  if (chaptersPlayed >= 20 && stats.npcs?.npc_blind_date >= 80) {
     return { trigger: true, id: "ending_blind_date_success", reason: "与相亲对象林晓修成正果" };
   }
-  if (stats.npcs?.npc_mom >= 60 && stats.npcs?.npc_dad >= 50) {
+  if (chaptersPlayed >= 20 && stats.npcs?.npc_mom >= 70 && stats.npcs?.npc_dad >= 60) {
     return { trigger: true, id: "ending_family_heal", reason: "与父母达成和解" };
   }
-  if (stats.npcs?.npc_ex >= 65) {
+  if (chaptersPlayed >= 20 && stats.npcs?.npc_ex >= 75) {
     return { trigger: true, id: "ending_ex_reunion", reason: "与前任达成和解" };
   }
 
-  // 优先级 3：经典属性结局
-  if (age <= 30 && confidence >= 75 && social >= 70 && totalScore >= 75) {
+  // 优先级 3：经典属性结局（需要玩够章节）
+  if (chaptersPlayed >= 25 && age <= 30 && confidence >= 80 && social >= 75 && totalScore >= 80) {
     return { trigger: true, id: "ending_perfect_match", reason: "黄金期完美收官" };
   }
 
-  if (chaptersPlayed >= 5 && age >= 30) {
-    return { trigger: true, id: "ending_default_match", reason: "差不多就得了" };
-  }
-
-  if (confidence <= 30 && social <= 40 && age >= 32) {
+  // 极端负面结局（玩够章节 + 属性极低）
+  if (chaptersPlayed >= 20 && confidence <= 25 && social <= 30 && age >= 33) {
     return { trigger: true, id: "ending_marriage_market_loop", reason: "高不成低不就" };
   }
 
-  if (chaptersPlayed >= 8) {
-    return { trigger: true, id: "ending_default_match", reason: "故事讲完了" };
+  // 低社交 + 一线/海外城市（玩够章节）
+  if (chaptersPlayed >= 18 && social <= 30 && ["一线", "新一线", "海外"].includes(stats.cityTier)) {
+    return { trigger: true, id: "ending_evade_master", reason: "逃离大师" };
   }
 
-  if (social >= 70 && confidence <= 60 && age >= 28) {
-    return { trigger: true, id: "ending_down_to_earth", reason: "放下面子的踏实" };
-  }
-
-  if (normGender(stats.gender) === "女" && age >= 35 && confidence >= 60) {
+  // 事业优先结局（女性 + 高年龄 + 高自信）
+  if (chaptersPlayed >= 22 && normGender(stats.gender) === "女" && age >= 36 && confidence >= 70) {
     return { trigger: true, id: "ending_career_first", reason: "事业优先的强者" };
   }
 
-  // 低社交 + 一线/海外城市
-  if (social <= 35 && ["一线", "新一线", "海外"].includes(stats.cityTier)) {
-    return { trigger: true, id: "ending_evade_master", reason: "逃离大师" };
+  // 踏实结局（高社交 + 低自信）
+  if (chaptersPlayed >= 18 && social >= 75 && confidence <= 55 && age >= 29) {
+    return { trigger: true, id: "ending_down_to_earth", reason: "放下面子的踏实" };
+  }
+
+  // 保底结局：玩完 28+ 章还没触发特殊结局
+  if (chaptersPlayed >= 28) {
+    return { trigger: true, id: "ending_default_match", reason: "春节假期结束" };
   }
 
   // 未触发
