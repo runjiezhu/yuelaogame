@@ -402,6 +402,30 @@ html, body {
 .choice-text { font-size: .88rem; color: var(--cream); line-height: 1.6; }
 .choice-tone { font-size: .72rem; color: var(--gray); margin-top: 4px; }
 
+/* === 章节场景插图 === */
+.chapter-scene {
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0,0,0,.3);
+  animation: fadeIn 0.5s ease-in;
+}
+
+.chapter-scene img {
+  width: 100%;
+  height: auto;
+  max-height: 300px;
+  object-fit: contain;
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* === 选项结果 === */
 .choice-result {
   margin-top: 20px;
@@ -927,6 +951,12 @@ html, body {
   font-weight: 700;
   letter-spacing: .05em;
   flex-shrink: 0;
+  cursor: help;
+  transition: color .15s;
+}
+
+.hud-label:hover {
+  color: var(--cream);
 }
 
 .hud-time {
@@ -949,12 +979,14 @@ html, body {
   border-radius: 3px;
   overflow: hidden;
   position: relative;
+  filter: drop-shadow(0 0 4px rgba(201,168,76,.2));
 }
 .hud-progress-fill {
   height: 100%;
   background: linear-gradient(90deg, var(--gold), var(--red-light));
   transition: width .5s ease;
   border-radius: 3px;
+  filter: drop-shadow(0 0 2px rgba(255,255,255,.2));
 }
 .hud-progress-text {
   color: var(--cream-dim);
@@ -972,6 +1004,7 @@ html, body {
   border-radius: 4px;
   overflow: hidden;
   position: relative;
+  filter: drop-shadow(0 0 4px rgba(201,168,76,.3));
 }
 .stat-energy-fill {
   height: 100%;
@@ -984,6 +1017,7 @@ html, body {
   background-position: calc(100% - var(--energy-pct, 100%)) 0;
   transition: width .5s ease, background-position .5s ease;
   border-radius: 4px;
+  filter: drop-shadow(0 0 2px rgba(255,255,255,.2));
 }
 .hud-energy-fill {
   width: var(--energy-pct, 100%);
@@ -994,6 +1028,7 @@ html, body {
   font-family: ui-monospace, monospace;
   min-width: 56px;
   text-align: right;
+  text-shadow: 0 0 4px rgba(244,236,216,.3);
 }
 .hud-energy-level {
   color: var(--cream-dim);
@@ -1010,6 +1045,7 @@ html, body {
   font-family: ui-monospace, monospace;
   font-size: .88rem;
   text-shadow: 0 0 8px rgba(255,215,0,.3);
+  filter: drop-shadow(0 0 2px rgba(255,215,0,.4));
 }
 
 .hud-divider {
@@ -1030,10 +1066,12 @@ html, body {
   color: var(--border);
   width: 11px;
   text-align: center;
+  transition: color .3s, text-shadow .3s;
 }
 .debt-dot--filled {
   color: var(--red);
   text-shadow: 0 0 6px rgba(193,68,14,.6);
+  filter: drop-shadow(0 0 3px rgba(193,68,14,.4));
 }
 .hud-debt-text {
   color: var(--cream-dim);

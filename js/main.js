@@ -244,6 +244,100 @@ function handleNewGame() {
   }, 400);
 }
 
+// ===== HUD 引导提示（首次进入游戏显示）=====
+function showHudTutorial() {
+  // 检查是否已显示过
+  if (localStorage.getItem('hud_tutorial_shown')) {
+    return;
+  }
+  
+  // 创建引导浮层
+  const tutorial = document.createElement('div');
+  tutorial.id = 'hud-tutorial';
+  tutorial.style.cssText = `
+    position: fixed;
+    top: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, rgba(193,68,14,.95) 0%, rgba(139,0,0,.95) 100%);
+    color: #F4ECD8;
+    padding: 16px 24px;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,.6);
+    z-index: 9999;
+    max-width: 90%;
+    width: 500px;
+    font-size: 14px;
+    line-height: 1.6;
+    animation: hudTutorialFadeIn 0.4s ease;
+    border: 2px solid rgba(244,236,216,.3);
+  `;
+  
+  tutorial.innerHTML = `
+    <div style="font-size: 16px; font-weight: 700; margin-bottom: 8px; text-align: center;">
+      📊 游戏状态说明
+    </div>
+    <div style="margin-bottom: 12px;">
+      顶部显示你的春节状态，鼠标悬停可查看详细说明：
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 6px; font-size: 13px;">
+      <div>⏰ <strong>时间</strong>：春节倒计时 - 8天后游戏结束</div>
+      <div>💪 <strong>精力</strong>：每个活动消耗精力，归零无法行动</div>
+      <div>💰 <strong>红包</strong>：用于买礼物和消费活动</div>
+      <div>🔴 <strong>人情债</strong>：欠人情会影响结局，越少越好</div>
+    </div>
+    <div style="text-align: center; margin-top: 14px;">
+      <button id="hud-tutorial-close" style="
+        background: #F4ECD8;
+        color: #8B0000;
+        border: none;
+        padding: 8px 24px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.12s;
+      " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+        我知道了
+      </button>
+    </div>
+  `;
+  
+  document.body.appendChild(tutorial);
+  
+  // 添加淡入动画
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes hudTutorialFadeIn {
+      from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+    @keyframes hudTutorialFadeOut {
+      from { opacity: 1; transform: translateX(-50%) translateY(0); }
+      to { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // 关闭按钮
+  const closeBtn = tutorial.querySelector('#hud-tutorial-close');
+  closeBtn.onclick = () => {
+    tutorial.style.animation = 'hudTutorialFadeOut 0.3s ease';
+    setTimeout(() => {
+      tutorial.remove();
+      style.remove();
+    }, 300);
+    localStorage.setItem('hud_tutorial_shown', 'true');
+  };
+  
+  // 3秒后自动关闭
+  setTimeout(() => {
+    if (document.getElementById('hud-tutorial')) {
+      closeBtn.click();
+    }
+  }, 3000);
+}
+
 // ===== 继续上次 =====
 function handleContinue() {
   const save = loadGameWithStats();
@@ -354,6 +448,10 @@ function handleConfirm() {
   refreshHUD();
   // v6: 显示背包按钮
   refreshInventory();
+  
+  // 显示 HUD 引导提示（首次进入游戏）
+  // showHudTutorial(); // 已禁用：用户反馈不需要黑框提示
+  
   saveGameWithStats();
   enterStats();
 }

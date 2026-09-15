@@ -139,7 +139,7 @@ export function renderHUD(stats) {
 
   hudBar.innerHTML = `
     <div class="hud-row hud-row--time">
-      <span class="hud-label">[时间]</span>
+      <span class="hud-label" title="游戏剩余时间 - 8天春节假期后游戏结束">[时间]</span>
       <span class="hud-time">${timeLabel}${isEnd ? " <span class='hud-final'>(最终)</span>" : ""}</span>
       <div class="hud-progress">
         <div class="hud-progress-fill" style="width:${timePct}%"></div>
@@ -147,7 +147,7 @@ export function renderHUD(stats) {
       <span class="hud-progress-text">${slotCur}/${slotTotal}</span>
     </div>
     <div class="hud-row hud-row--energy">
-      <span class="hud-label">[精力]</span>
+      <span class="hud-label" title="精力值 - 每个活动消耗精力，归零后无法行动，每天重置">[精力]</span>
       <div class="hud-energy stat-energy" style="--energy-pct:${energy.pct}%">
         <div class="stat-energy-fill hud-energy-fill" style="width:${energy.pct}%"></div>
       </div>
@@ -155,10 +155,10 @@ export function renderHUD(stats) {
       <span class="hud-energy-level">${energy.level}</span>
     </div>
     <div class="hud-row hud-row--resources">
-      <span class="hud-label">[红包]</span>
+      <span class="hud-label" title="红包金额 - 用于购买礼物和消费活动">[红包]</span>
       <span class="stat-redpacket">¥${redPacket.toLocaleString()}</span>
       <span class="hud-divider"></span>
-      <span class="hud-label">[人情债]</span>
+      <span class="hud-label" title="人情债 - 欠人情会影响结局，越少越好">[人情债]</span>
       <span class="hud-debt">${debtDots}</span>
       <span class="hud-debt-text">${socialDebt}/10</span>
     </div>
@@ -353,10 +353,12 @@ export function renderChapter(event, { onChoice }) {
   const titlePrefix = event.isMainQuest ? "🧧 " : "";
   if (titleEl) titleEl.textContent = titlePrefix + (event.title ?? "第？章");
 
-  // 场景插画
+  // 场景插画（使用 scene 或 illustration 字段）
   let sceneIllustration = "";
-  if (event.illustration) {
-    sceneIllustration = `<img src="assets/scenes/${event.illustration}" class="scene-img" alt="${event.title}">`;
+  const sceneFile = event.scene || event.illustration;
+  if (sceneFile) {
+    const scenePath = sceneFile.includes('.svg') ? sceneFile : `${sceneFile}.svg`;
+    sceneIllustration = `<div class="chapter-scene"><img src="assets/scenes/${scenePath}" alt="${event.title}"></div>`;
   }
 
   // NPC 出场 Banner（带头像圆圈）

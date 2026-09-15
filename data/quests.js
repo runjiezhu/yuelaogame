@@ -34,6 +34,7 @@ export const QUESTS = [
     timeSlot: "腊月二十九 · 上午",
     description: "妈妈连续打了7个电话催你回家过年，票还没买...",
     npcInvolved: ["npc_mom", "npc_dad"],
+    scene: "train",
     illustration: "train.svg",
     bgColor: "#1a2840",
     trigger: {
@@ -720,6 +721,7 @@ export const QUESTS = [
     timeSlot: "除夕 · 晚上",
     description: "一桌子年夜饭，奶奶的第一轮催婚正式打响...",
     npcInvolved: ["npc_mom", "npc_dad", "npc_grandma"],
+    scene: "dinner",
     illustration: "dinner.svg",
     bgColor: "#8B0000",
     trigger: {
@@ -1016,6 +1018,7 @@ export const QUESTS = [
     timeSlot: "初一 · 下午",
     description: "二婶、表哥、七大姑八大姨轮番轰炸，你准备好接招了吗？",
     npcInvolved: ["npc_mom", "npc_grandma", "npc_bestie"],
+    scene: "family",
     illustration: "family.svg",
     bgColor: "#2d2419",
     trigger: {
@@ -1486,6 +1489,7 @@ export const QUESTS = [
     timeSlot: "初二 · 下午",
     description: "高中同学群里有人组织聚会，你犹豫要不要去...",
     npcInvolved: ["npc_ex", "npc_bestie"],
+    scene: "reunion",
     illustration: "reunion.svg",
     bgColor: "#1f2d3d",
     trigger: {
@@ -1836,6 +1840,7 @@ export const QUESTS = [
     timeSlot: "初三 · 上午",
     description: "妈妈「不经意」地提起有个「朋友的孩子」，你心里有数了",
     npcInvolved: ["npc_mom", "npc_dad"],
+    scene: "conversation",
     illustration: "chat.svg",
     bgColor: "#2a1f1f",
     trigger: {
@@ -2024,6 +2029,7 @@ export const QUESTS = [
     timeSlot: "初三 · 下午",
     description: "{{npc_bestie.name}}带着你爱吃的来了，这次是战友情报局开张",
     npcInvolved: ["npc_bestie", "npc_mom"],
+    scene: "coffee",
     illustration: "coffee.svg",
     bgColor: "#2a1f2d",
     trigger: {
@@ -2409,6 +2415,7 @@ export const QUESTS = [
     timeSlot: "初四 · 上午",
     description: "咖啡馆里的第一次见面，她/他的第一印象如何？",
     npcInvolved: ["npc_blind_date", "npc_mom"],
+    scene: "dating",
     illustration: "dating.svg",
     bgColor: "#2d1f28",
     trigger: {
@@ -3085,6 +3092,7 @@ export const QUESTS = [
     timeSlot: "初五 · 下午",
     description: "在奶茶店偶遇，这次聊天更自然了",
     npcInvolved: ["npc_blind_date", "npc_bestie"],
+    scene: "love",
     illustration: "love.svg",
     bgColor: "#2d1f2a",
     trigger: {
@@ -3561,6 +3569,7 @@ export const QUESTS = [
     timeSlot: "初六 · 下午",
     description: "爸爸喝了点酒，终于跟你说了一句实话",
     npcInvolved: ["npc_mom", "npc_dad"],
+    scene: "conversation",
     illustration: "conversation.svg",
     bgColor: "#1f2533",
     trigger: {
@@ -4058,6 +4067,7 @@ export const QUESTS = [
     timeSlot: "初七 · 下午",
     description: "车站送别，妈妈往你行李里塞了一堆东西",
     npcInvolved: ["npc_mom", "npc_dad", "npc_blind_date"],
+    scene: "goodbye",
     illustration: "goodbye.svg",
     bgColor: "#1a2430",
     trigger: {
@@ -4567,6 +4577,7 @@ export const QUESTS = [
     timeSlot: "初八 · 下午",
     description: "春节战役的尾声，新一年的序章",
     npcInvolved: ["npc_mom", "npc_dad", "npc_blind_date", "npc_ex", "npc_bestie"],
+    scene: "train",
     illustration: "ending.svg",
     bgColor: "#1a2430",
     trigger: {
